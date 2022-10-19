@@ -1,0 +1,53 @@
+{% extends 'glasses/base.html' %}
+
+{% block content %}
+    <div class="center1200">
+        <form action="" method="POST" name="person" class="person">
+            <section class="up">
+                <h1>Регистрация</h1>
+            </section>
+            <section class="personal_data md">
+
+                    <label for="name">Имя
+                    <input type="text" placeholder="Борис" id="name" name="name"></label>
+
+                <label for="name">Фамилия
+                <input type="text" placeholder="Немцов" id="surname" name="surname"></label>
+                <label for="name">Отчество
+                <input type="text" placeholder="Ефимович" id="patronymic" name="patronymic"></label>
+                <label for="name">E-mail
+                <input type="text" placeholder="pochta@mail.ru" id="mail" name="mail"></label>
+                <label for="name">Телефон
+                <input type="text" placeholder="+7 987 654 32 10" id="phone" name="phone"></label>
+                <label for="name">Ваш пол
+                    <div class="gender">
+                        <label class="rad" for="w">
+                            <input type="radio" id="w" value="Женский" name="gender" class="ra">
+                            <span class="visual_radio"></span>
+                            <p>Муж</p>
+                        </label>
+                        <label class="rad" for="m">
+                            <input type="radio" id="m" value="Женский" name="gender" class="ra">
+                            <span class="visual_radio"></span>
+                            <p>Жен</p>
+                        </label>
+                    </div>
+                </label>
+                <label for="name">Пароль
+                    <input type="text" placeholder="********" id="mail" name="mail"></label>
+                    <label for="name">Подтвердите пароль
+                    <input type="text" placeholder="********" id="phone" name="phone">
+                </label>
+                <label for="name">
+                <div class="signin">
+                    <input type="submit" value="Зарегистрироваться" class="regg">
+                    <a href="#" class="have">У меня уже есть аккаунт</a>
+                </div>
+            </label>
+            </section>
+
+        
+    </div>
+
+
+{% endblock content %}

@@ -1,0 +1,123 @@
+{% extends 'glasses/base.html' %}
+
+{% block content %}
+    <div class="center1200">
+        <form action="" method="POST" name="person" class="person">
+            <section class="up">
+                <h1>Личный кабинет</h1>
+                <div class="save_exit">
+                    <input type="submit" value="Сохранить">
+                    <a href="#" class="exit">Выйти</a>
+                </div>
+            </section>
+            <section class="personal_data">
+
+                    <label for="name">Имя
+                    <input type="text" placeholder="Борис" id="name" name="name"></label>
+
+                <label for="name">Фамилия
+                <input type="text" placeholder="Немцов" id="surname" name="surname"></label>
+                <label for="name" class="no_margin">Отчество
+                <input type="text" placeholder="Ефимович" id="patronymic" name="patronymic"></label>
+                <label for="name">E-mail
+                <input type="text" placeholder="pochta@mail.ru" id="mail" name="mail"></label>
+                <label for="name">Телефон
+                <input type="text" placeholder="+7 987 654 32 10" id="phone" name="phone"></label>
+                <label for="name">Ваш пол
+                    <div class="gender">
+                        <label class="rad" for="w">
+                            <input type="radio" id="w" value="Женский" name="gender" class="ra">
+                            <span class="visual_radio"></span>
+                            <p>Муж</p>
+                        </label>
+                        <label class="rad" for="m">
+                            <input type="radio" id="m" value="Женский" name="gender" class="ra">
+                            <span class="visual_radio"></span>
+                            <p>Жен</p>
+                        </label>
+                    </div>
+                </label>
+            </section>
+
+            <h2 class="adr">Адрес доставки</h2>
+
+            <section class="adres">
+
+                <input type="text" placeholder="Страна" id="country" name="country">
+                <input type="text" placeholder="Город" id="city" name="city">
+                <input type="text" placeholder="Улица и дом" id="Улица, дом" name="city">
+                <input type="text" placeholder="Кв" id="Кв" name="flat" class="kv">
+            </section>
+            <h2 class="adr">История</h2>
+        </form>
+        
+    </div>
+
+
+
+
+    <section class="">
+
+        <div class="center1">
+
+            <div class="list">
+                <!-- карточка товара-->
+
+                <div class="card1">
+                    <div class="card">
+                        <a href="#">
+                            <div class="imgbox1">
+                                <img src="/img/g1.jpg" alt="">
+                            </div>
+                        </a>
+                        <a href="#" class="h3">Enni Marco 11531 17</a>
+                            <a href="#"  class="down_card2">
+                                <h3>Не оплачено</h3>
+                                <p class="price">299₽</p>
+                            </a>
+                    </div>
+                </div>
+
+                <!-- карточка товара-->
+
+                <div class="card1">
+                    <div class="card">
+                        <a href="#">
+                            <div class="imgbox1">
+                                <img src="/img/g1.jpg" alt="">
+                            </div>
+                        </a>
+                        <a href="#" class="h3">Enni Marco 11531 17</a>
+                            <a href="#"  class="down_card2">
+                                <h3 class="wait">Собирается</h3>
+                                <p class="price">299₽</p>
+                            </a>
+                    </div>
+                </div>
+                <!-- карточка товара-->
+
+                <div class="card1">
+                    <div class="card">
+                        <a href="#">
+                            <div class="imgbox1">
+                                <img src="/img/g1.jpg" alt="">
+                            </div>
+                        </a>
+                        <a href="#" class="h3">Enni Marco 11531 17</a>
+                            <a href="#"  class="down_card2">
+                                <h3 class="shipped">Отправлено</h3>
+                                <p class="price">299₽</p>
+                            </a>
+                    </div>
+                </div>
+                <!-- карточка товара-->
+
+                <a class="his" href="#">
+                    <h3>Смотреть <br>
+                        всю историю</h3>
+                    </a>
+
+            </div>
+        </div>
+    </section>
+{% endblock content %}

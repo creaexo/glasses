@@ -1,0 +1,125 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'glasses/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'glasses/css/slider.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&&display=swap" rel="stylesheet">
+    <script defer src="{% static 'glasses/scripts/js.js' %}"></script>
+</head>
+
+
+<body>
+    <header>
+        <div class="center">
+            <a href="../../../../../"><img src="{% static '/glasses/img/Union.svg' %}" alt="logo" class="logo"></a>
+            <div class="con">
+                <div class="hup">
+                    <nav>
+                        <a href="#">О магазине</a>
+                        <a href="#">Доставка и оплата</a>
+                        <a href="#">Гарантия</a>
+                        <a href="#">Отзывы</a>
+                    </nav>
+                    <div class="silo">
+                        <a href="/login" class="vhod">Вход</a>
+                        <a href="/signin" class="reg">Регистрация</a>
+                    </div>
+                </div>
+                <div class="hdown">
+                    <form action="" method="get">
+                        <input name="s" placeholder="ПОИСК ПО САЙТУ" type="search">
+                        <button type="submit"><img src="static/glasses/img/lupa.svg" alt=""></button>
+                    </form>
+                    <div class="spbtw">
+                        <div class="img_txt">
+                            <img src="{% static '/glasses/img/phone.svg' %}" alt="">
+                            <p>+7 912 205-57-77</p>
+                        </div>
+                        <div class="img_txt">
+                            <img src="{% static '/glasses/img/mail.svg' %}" alt="">
+                            <p>cntrl-optic@mail.ru</p>
+                        </div>
+                        <a href="like" class="img_txt hearth2">
+                            <img src="{% static '/glasses/img/heart.svg' %}" alt="" class="hearth">
+                            <img src="{% static '/glasses/img/heart2.svg' %}" alt="" class="red_hearth">
+                            <p>Избранное</p>
+                        </a>
+                        <a href="basket" class="img_txt korz2">
+
+                            <img src="{% static '/glasses/img/korz.svg' %}" alt="" class="korz">
+                            <img src="{% static '/glasses/img/greenkorz.svg' %}" alt="" class="greenkorz">
+                            <p>Корзина</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="centerr">
+        <nav class="things">
+            <a href="#">контактные линзы</a>
+            <a href="#">очки и оправы</a>
+            <a href="#">солнцезащитные очки</a>
+            <a href="#">средства по уходу</a>
+            <a href="#">аксессуары</a>
+            <a href="#">акции</a>
+        </nav>
+    </section>
+
+
+{% block content %}
+{% endblock content %}
+
+    <footer>
+        <div class="niz">
+            <div class="center_start">
+            <a href="#"><img src="{% static '/glasses/img/Union.svg' %}" alt="logo"></a>
+            <div class="f_center">
+                <div class="fup">
+                    <nav>
+                        <a href="#">О магазине</a>
+                        <a href="#">Доставка и оплата</a>
+                        <a href="#">Гарантия</a>
+                        <a href="#">Отзывы</a>
+                    </nav>
+                </div>
+                <div class="fdown">
+                    <div class="start">
+                        <div  class="img_txt2">
+                            <img src="{% static '/glasses/img/phone.svg' %}" alt="">
+                            <p>+7 912 205-57-77</p>
+                        </div>
+                        <div  class="img_txt2">
+                            <img src="{% static '/glasses/img/mail.svg' %}" alt="">
+                            <p>cntrl-optic@mail.ru</p>
+                        </div>
+                        <a href="#"  class="img_txt2">
+                            <img src="{% static '/glasses/img/insta.svg' %}" alt="">
+                            <p>tvoiglaza_ekb</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <p>г. Верхняя Пышма<br>
+                Ценральный проспект 20<br>
+                пн-вс 10:00-22:00</p>
+        </div>
+        </div>
+
+
+    </footer>
+
+
+</body>
+
+</html>
+

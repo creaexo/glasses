@@ -1,0 +1,203 @@
+{% extends 'glasses/base.html' %}
+
+{% load static %}
+{% block content %}
+<form action="" method="get">
+    <div class="uu fdwn">
+        <section class="up">
+            <div class="lin">
+                <a href="#">Очки для зрения></a>
+                <a href="#">Barcelona Lahti PUGD</a>
+            </div>
+
+            <a href="#">
+                <div class="heart" preserveAspectRatio="none"></div>
+            </a>
+        </section>
+
+        <div class="middle">
+
+
+            <div class="card2">
+                <section id="slider_bl">
+                    <div class="wrapper">
+                        <input checked type=radio name="slider" id="slide1" />
+                        <input type=radio name="slider" id="slide2" />
+                        <input type=radio name="slider" id="slide3" />
+                        <input type=radio name="slider" id="slide4" />
+                        <div class="slider-wrapper">
+                            <div class=inner>
+                                <article>
+                                    <div class="card2">
+                                        <div class="img/box3">
+                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                        </div>
+                                    </div>
+                                </article>
+                                <article>
+                                    <div class="card2">
+                                        <div class="imgbox2">
+                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                        </div>
+                                    </div>
+                                </article>
+                                <article>
+                                    <div class="card2">
+                                        <div class="imgbox2">
+                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                        </div>
+                                    </div>
+                                </article>
+                                <article>
+                                    <div class="card2">
+                                        <div class="imgbox2">
+                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="slider-prev-next-control">
+                            <label for=slide1></label>
+                            <label for=slide2></label>
+                            <label for=slide3></label>
+                            <label for=slide4></label>
+                        </div>
+                        <div class="slider-dot-control">
+                            <label for=slide1></label>
+                            <label for=slide2></label>
+                            <label for=slide3></label>
+                            <label for=slide4></label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+            <div class="info prod">
+                <div class="upp">
+                    <h2>Barcelona Lahti PUGDB</h2>
+
+
+                </div>
+
+                <p>Размер: M</p>
+                <p>Пол: Унисекс</p>
+                <p>Тип: Очки для зрения</p>
+                <p>Производитель: Etnia Barcelona</p>
+                <h3 class="mt23">4 999₽</h3>
+                <div class="interective fl aic">
+                    <input type="submit" value="Купить сейчас"></input>
+                    <div class="fl">
+                        <a href="#" class="basketa">
+                            <div class="basket"></div>
+                        </a>
+
+                    </div>
+                    <div class="number" data-step="1" data-min="1" data-max="100">
+                        <input type="number" step="1" min="1" max="10" id="num_count" name="quantity" value="1" title="Qty" class="number-text">
+                        <input type="button" value="-" id="button_minus" class="number-minus">
+                        <input type="button" value="+" id="button_plus" class="number-plus">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    <!--форма с подбором линз-->
+            <div class="center_start product_down">
+            <h2>Подобрать линзы</h2>
+            <div class="form_linses">
+                <p> </p>
+                <p>Сфера (Sph)</p>
+                <p>Цилиндр (Cyl)</p>
+                <p>Ось (Ax)</p>
+
+                <p>Правый глаз (OD)</p>
+                <select name="right_sph" id="right_sph">
+                    <option>Не выбрано</option>
+                    <option>0</option>
+                    <option>+ 0.25</option>
+                </select>
+                <select name="right_cyl" id="right_cyl">
+                    <option>Не выбрано</option>
+                    <option>0</option>
+                    <option>+ 0.25</option>
+                </select>
+                <select name="right_ax" id="right_ax">
+                    <option>Не выбрано</option>
+                    <option>0</option>
+                    <option>1</option>
+                </select>
+
+                <p>Левый глаз (OD)</p>
+                <select name="left_sph" id="left_sph">
+                    <option>Не выбрано</option>
+                    <option>0</option>
+                    <option>+ 0.25</option>
+                </select>
+                <select name="left_cyl" id="left_cyl">
+                    <option>Не выбрано</option>
+                    <option>0</option>
+                    <option>+ 0.25</option>
+                </select>
+                <select name="left_ax" id="left_ax">
+                    <option>Не выбрано</option>
+                    <option>0</option>
+                    <option>1</option>
+                </select>
+
+                <p>РМЦ (PD)</p>
+                <select name="pd1" id="pd1">
+                    <option>Не выбрано</option>
+                    <option>20</option>
+                    <option>20.5</option>
+                </select>
+                <select name="pd2" id="pd2">
+                    <option>У меня только 1 pd</option>
+                    <option>20.5</option>
+                </select>
+            </div>
+        </div>
+    <!--форма с подбором линз-->
+        <div class="center_start product_down">
+            <h2>Полная характеристика</h2>
+            <div class="spbet">
+                <div class="prod">
+                    <p><b>Размер:</b> M</p>
+                    <p><b>Пол:</b> Унисекс</p>
+                    <p><b>Производитель:</b>Etnia Barcelona</p>
+                    <p><b>Материал оправы:</b> Металл</p>
+                    <p><b>Тип оправы:</b> Ободковая </p>
+                    <p><b>Форма:</b> Овальные</p>
+                    
+                </div>
+                <div class="glass_size">
+                    <div class="gs">
+                        <p><b>Высота линзы:</b>37мм</p>
+                        <img src="{% static '/glasses/img/gs1.jpg' %}" alt="">
+                        
+                    </div>
+                    <div class="gs">
+                        <p><b>Высота линзы:</b>53мм</p>
+                        <img src="{% static '/glasses/img/gs2.jpg' %}" alt="">
+                        
+                    </div>
+                    <div class="gs">
+                        <p><b>Высота линзы:</b>140мм</p>
+                        <img src="{% static '/glasses/img/gs3.jpg' %}" alt="">
+                        
+                    </div>
+                    <div class="gs">
+                        <p><b>Высота линзы:</b>15мм</p>
+                        <img src="{% static '/glasses/img/gs4.jpg' %}" alt="">
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</form>
+{% endblock content %}
