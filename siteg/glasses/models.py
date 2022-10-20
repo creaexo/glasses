@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.urls import reverse
+
 # Create your models here.
 
 User = get_user_model()
@@ -16,6 +18,10 @@ User = get_user_model()
 
 
 #0 Work
+
+def get_product_url(obj, viewname):
+    ct_model = obj.__class__._meta.model_name
+    return reverse(viewname, kwargs={'ct_model': ct_model, 'slug': obj.slug})
 
 class LatestProductsManager:
 
@@ -206,6 +212,9 @@ class Glasses(Product):
     def __str__(self):
         return "{} : {}".format(self.category, self.title)
 
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
 # 2.2 Lenses
 
 
@@ -283,7 +292,8 @@ class Lenses(Product):
     def __str__(self):
         return self.title
 
-
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
 #3 CartProduct
 
 class CartProduct(models.Model):

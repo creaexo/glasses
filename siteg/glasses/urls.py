@@ -10,4 +10,5 @@ urlpatterns = [
     path('basket', basket),
     path('product', product),
     path('status', status),
+    path('product/<str:ct_model>/<str:slug>/', ProductDetailView.as_view(), name='product_detail'),
 ]

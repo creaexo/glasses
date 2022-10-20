@@ -7,7 +7,7 @@
         <section class="up">
             <div class="lin">
                 <a href="#">Очки для зрения></a>
-                <a href="#">Barcelona Lahti PUGD</a>
+                <a href="#">{{ product.title }}</a>
             </div>
 
             <a href="#">
@@ -30,7 +30,7 @@
                                 <article>
                                     <div class="card2">
                                         <div class="img/box3">
-                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                            <img src="{{ product.image.url }}" alt="">
                                         </div>
                                     </div>
                                 </article>
