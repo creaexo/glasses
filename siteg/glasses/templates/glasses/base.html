@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&&display=swap" rel="stylesheet">
     <script defer src="{% static 'glasses/scripts/js.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 </head>
 
 
@@ -57,7 +58,7 @@
 
                             <img src="{% static '/glasses/img/korz.svg' %}" alt="" class="korz">
                             <img src="{% static '/glasses/img/greenkorz.svg' %}" alt="" class="greenkorz">
-                            <p>Корзина</p>
+                            <p>Корзина [{{ cart.products.count }}]</p>
                         </a>
                     </div>
                 </div>
@@ -77,6 +78,138 @@
 
 
 {% block content %}
+    <section class="bg">
+        <h1>Начни наслаждаться красотой этого мира<br>
+            вместе с нами</h1>
+    </section>
+    <section class="showcase">
+        <div class="center1">
+            <div class="tc">
+                <h2 class="acol">Акции</h2>
+                <a href="#">Смотреть все></a>
+            </div>
+        </div>
+        <div class="center1">
+            <div class="list">
+                <!-- карточка товара-->
+                                {% for product in products_a %}
+                <!-- карточка товара-->
+                <a href="##">
+                <div class="card1" >
+                    <div class="card">
+
+                            <div class="imgbox1">
+                                {% if product.image1.url != None %}
+                                <img src="{{ product.image1.url }}" alt="">
+                                {% else %}
+                                <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                {% endif %}
+                            </div>
+
+                        <h3>{{ product.title }}</h3>
+                        <div class="down_card2">
+                            <p>{{ product.price }}₽</p>
+                            <div class="fl2">
+                                <a href="###"><div class="basket"></div></a>
+                                <a href="####">
+                                    <div class="heart"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="showcase">
+        <div class="center1">
+            <div class="tc2">
+                <h2 class="acol">Очки для зрения</h2>
+                <a href="#">Смотреть все></a>
+            </div>
+        </div>
+        <div class="center1">
+            <div class="list">
+                {% for product in products_g %}
+                <!-- карточка товара-->
+                <a href="##">
+                <div class="card1" >
+                    <div class="card">
+
+                            <div class="imgbox1">
+                                {% if product.image1.url != None %}
+                                <img src="{{ product.image1.url }}" alt="">
+                                {% else %}
+                                <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                {% endif %}
+                            </div>
+
+                        <h3>{{ product.title }}</h3>
+                        <div class="down_card2">
+                            <p>{{ product.price }}₽</p>
+                            <div class="fl2">
+                                <a href="###"><div class="basket"></div></a>
+                                <a href="####">
+                                    <div class="heart"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+                <!-- карточка товара-->
+
+
+
+            </div>
+        </div>
+    </section>
+    <section class="showcase">
+        <div class="center1">
+            <div class="tc2">
+                <h2 class="acol">Контактные линзы</h2>
+                <a href="#">Смотреть все></a>
+            </div>
+        </div>
+        <div class="center1">
+            <div class="list">
+                                {% for product in products_l %}
+                <!-- карточка товара-->
+                <a href="##">
+                <div class="card1" >
+                    <div class="card">
+
+                            <div class="imgbox1">
+                                {% if product.image1.url != None %}
+                                <img src="{{ product.image1.url }}" alt="">
+                                {% else %}
+                                <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                {% endif %}
+                            </div>
+
+                        <h3>{{ product.title }}</h3>
+                        <div class="down_card2">
+                            <p>{{ product.price }}₽</p>
+                            <div class="fl2">
+                                <a href="###"><div class="basket"></div></a>
+                                <a href="####">
+                                    <div class="heart"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </section>
 {% endblock content %}
 
     <footer>

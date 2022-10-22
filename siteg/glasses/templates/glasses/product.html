@@ -6,7 +6,7 @@
     <div class="uu fdwn">
         <section class="up">
             <div class="lin">
-                <a href="#">Очки для зрения></a>
+                <a href="#">{{ product.category }}></a>
                 <a href="#">{{ product.title }}</a>
             </div>
 
@@ -29,29 +29,45 @@
                             <div class=inner>
                                 <article>
                                     <div class="card2">
-                                        <div class="img/box3">
-                                            <img src="{{ product.image.url }}" alt="">
+                                        <div class="imgbox3">
+                                            {% if product.image1 != None  %}
+                                            <img src="{{ product.image1.url }}" alt="">
+                                            {% else %}
+                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </article>
                                 <article>
                                     <div class="card2">
-                                        <div class="imgbox2">
+                                        <div class="imgbox3">
+                                            {% if product.image2.url != None %}
+                                            <img src="{{ product.image2.url }}" alt="">
+                                            {% else %}
                                             <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </article>
                                 <article>
                                     <div class="card2">
-                                        <div class="imgbox2">
+                                        <div class="imgbox3">
+                                            {% if product.image3.url != None %}
+                                            <img src="{{ product.image3.url }}" alt="">
+                                            {% else %}
                                             <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </article>
                                 <article>
                                     <div class="card2">
-                                        <div class="imgbox2">
+                                        <div class="imgbox3">
+                                            {% if product.image4.url != None %}
+                                            <img src="{{ product.image4.url }}" alt="">
+                                            {% else %}
                                             <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </article>
@@ -76,20 +92,19 @@
 
             <div class="info prod">
                 <div class="upp">
-                    <h2>Barcelona Lahti PUGDB</h2>
+                    <h2>{{ product.title }}</h2>
 
 
                 </div>
-
-                <p>Размер: M</p>
-                <p>Пол: Унисекс</p>
-                <p>Тип: Очки для зрения</p>
-                <p>Производитель: Etnia Barcelona</p>
-                <h3 class="mt23">4 999₽</h3>
+                <p>Размер: {{ product.glasses_size }}</p>
+                <p>Пол: {{ product.glasses_gender }}</p>
+                <p>Тип: {{ product.frame_type }}</p>
+                <p>Производитель: {{ product.manufacturer }}</p>
+                <h3 class="mt23">{{ product.price }}₽</h3>
                 <div class="interective fl aic">
                     <input type="submit" value="Купить сейчас"></input>
                     <div class="fl">
-                        <a href="#" class="basketa">
+                        <a href="{% url 'add_to_cart' ct_model=ct_model slug=product.slug %}" class="basketa">
                             <div class="basket"></div>
                         </a>
 
@@ -104,7 +119,9 @@
             </div>
 
         </div>
-    <!--форма с подбором линз-->
+
+        {% if product.category.slug == 'glasses' %}
+            <!--форма с подбором линз для очков -->
             <div class="center_start product_down">
             <h2>Подобрать линзы</h2>
             <div class="form_linses">
@@ -164,39 +181,148 @@
             <h2>Полная характеристика</h2>
             <div class="spbet">
                 <div class="prod">
-                    <p><b>Размер:</b> M</p>
-                    <p><b>Пол:</b> Унисекс</p>
-                    <p><b>Производитель:</b>Etnia Barcelona</p>
-                    <p><b>Материал оправы:</b> Металл</p>
-                    <p><b>Тип оправы:</b> Ободковая </p>
-                    <p><b>Форма:</b> Овальные</p>
-                    
+                    <p><b>Размер:</b> {{ product.glasses_size }}</p>
+                    <p><b>Пол:</b> {{ product.glasses_gender }}</p>
+                    <p><b>Производитель:</b>{{ product.manufacturer }}</p>
+                    <p><b>Материал оправы:</b> {{ product.frame_material }}</p>
+                    <p><b>Тип оправы:</b> {{ product.frame_type }} </p>
+                    <p><b>Форма:</b> {{ product.glasses_form }}</p>
+
                 </div>
                 <div class="glass_size">
                     <div class="gs">
-                        <p><b>Высота линзы:</b>37мм</p>
+                        <p><b>Высота линзы:</b>{{ product.Lenses_height }}</p>
                         <img src="{% static '/glasses/img/gs1.jpg' %}" alt="">
-                        
+
                     </div>
                     <div class="gs">
-                        <p><b>Высота линзы:</b>53мм</p>
+                        <p><b>Высота линзы:</b>{{ product.Lenses_width }}</p>
                         <img src="{% static '/glasses/img/gs2.jpg' %}" alt="">
-                        
+
                     </div>
                     <div class="gs">
-                        <p><b>Высота линзы:</b>140мм</p>
+                        <p><b>Высота линзы:</b>{{ product.Lenses_length }}</p>
                         <img src="{% static '/glasses/img/gs3.jpg' %}" alt="">
-                        
+
                     </div>
                     <div class="gs">
-                        <p><b>Высота линзы:</b>15мм</p>
+                        <p><b>Высота линзы:</b>{{ product.Lenses_bridge }}</p>
                         <img src="{% static '/glasses/img/gs4.jpg' %}" alt="">
-                        
+
                     </div>
                 </div>
             </div>
 
         </div>
+    {% endif %}
+
+        {% if product.category.slug == 'lenses' %}
+            <!--форма с подбором  характеристик для линз -->
+            <div class="center_start product_down two_y">
+                <h2>Подобрать линзы</h2>
+                <div class="lench">
+
+                    <label class="rad" for="answ1">
+                        <input type="radio" id="answ1" value="one_y" name="ra" class="ra" checked="checked">
+                        <span class="visual_radio"></span>
+                        <p>Одинаковые параметры глаз</p>
+                    </label>
+                    <label class="rad" for="answ2">
+                        <input type="radio" id="answ2" value="two_y" name="ra" class="ra">
+                        <span class="visual_radio"></span>
+                        <p>Разные параметры глаз</p>
+                    </label>
+                </div>
+
+
+
+                <div class="quiz1">
+                    <div class="form_linses_2">
+                        <p> </p>
+                        <p>Сфера (Sph)</p>
+                        <p>Радиус (Вс)</p>
+
+                        <p>Правый глаз (OD)</p>
+                        <select name="right_sph" id="right_sph">
+                            <option value="none">Не выбрано</option>
+                            <option>0</option>
+                            <option>+ 0.25</option>
+                        </select>
+                        <select name="right_rad" id="right_cyl">
+                            <option>Не выбрано</option>
+                            <option>0</option>
+                            <option>+ 0.25</option>
+                        </select>
+
+                        <p>Левый глаз (OD)</p>
+                        <select name="right_sph" id="right_sph">
+                            <option value="none">Не выбрано</option>
+                            <option>0</option>
+                            <option>+ 0.25</option>
+                        </select>
+                        <select name="right_rad" id="right_cyl">
+                            <option>Не выбрано</option>
+                            <option>0</option>
+                            <option>+ 0.25</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quiz2">
+                    <div class="form_linses_1">
+                        <p>Сфера (Sph)</p>
+
+                        <select name="right_sph" id="right_sph">
+                            <option value="none">Не выбрано</option>
+                            <option>0</option>
+                            <option>+ 0.25</option>
+                        </select>
+
+                        <p>Радиус (Вс)</p>
+                        <select name="right_rad" id="right_cyl">
+                            <option>Не выбрано</option>
+                            <option>0</option>
+                            <option>+ 0.25</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <!--форма с подбором характеристик для линз-->
+                <div class="center_start product_down">
+            <h2>Полная характеристика</h2>
+            <div class="spbet">
+                <div class="prod">
+                    <p><b>Тип:</b> {{ product.type }}</p>
+                    <p><b>Производитель:</b>{{ product.manufacturer }}</p>
+                    <p><b>Влагосодержание:</b> {{ product.moisture }}</p>
+                    <p><b>Пропускание кислорода:</b> {{ product.oxygen }} </p>
+                    <p><b>Диаметр:</b> {{ product.diameter }}</p>
+                    <p><b>UVA/UVB защита:</b> {{ product.meaning }}</p>
+                    <p><b>Материал:</b> {{ product.material }}</p>
+
+                </div>
+                <div class="prod prod1">
+                    <b>Описание</b>
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
+
+        </div>
+          {% endif %}
+         {% if product.category.slug != 'lenses' and product.category.slug != 'glasses' %}
+            <!--форма с подбором характеристик для линз-->
+                <div class="center_start product_down">
+            <h2>Полная характеристика</h2>
+            <div class="spbet">
+                <div class="prod eue">
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
+
+        </div>
+          {% endif %}
+
 
     </div>
 </form>

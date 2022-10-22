@@ -19,6 +19,10 @@ User = get_user_model()
 
 #0 Work
 
+def get_models_for_count(*model_names):
+    return [models.Count(model_name) for model_name in model_names]
+
+
 def get_product_url(obj, viewname):
     ct_model = obj.__class__._meta.model_name
     return reverse(viewname, kwargs={'ct_model': ct_model, 'slug': obj.slug})
@@ -31,7 +35,7 @@ class LatestProductsManager:
         products = []
         ct_models = ContentType.objects.filter(model__in=args)
         for ct_model in ct_models:
-            model_products = ct_model.model_class()._base_manager.all().order_by('-id')[:5]
+            model_products = ct_model.model_class()._base_manager.all().order_by('-id')[:4]
             products.extend(model_products)
         if with_respect_to:
             ct_model = ContentType.objects.filter(model=with_respect_to)
@@ -49,18 +53,39 @@ class LatestProducts:
 
 #1 Category
 
+class CategoryManager(models.Manager):
+
+    CATEGORY_NAME_COUNT_NAME = {
+        'Очки': 'glasses__count',
+        'Линзы': 'lenses__count'
+    }
+
+    def get_queryset(self):
+        return super().get_queryset()
+
+    def get_categories_for_left_sidebar(self):
+        models = get_models_for_count('glasses', 'lenses')
+        qs = list(self.get_queryset().annotate(*models).values())
+        data = [
+            dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
+            for c in qs
+        ]
+        return data
 
 class Category(models.Model):
-    title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, auto_created=True)
+    name = models.CharField(max_length=100, verbose_name='Название категории')
 
+    objects = CategoryManager()
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = ' Категории'
 
     def __str__(self):
-        return self.title
+        return self.name
 
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
 
 #2 Product
 
@@ -185,8 +210,11 @@ class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     title = models.CharField(max_length=255, verbose_name='Наименование')
     slug = models.SlugField(unique=True)
-    image = models.ImageField(verbose_name='Изображение')
-    description = models.TextField(verbose_name='Описание', null=True)
+    image1 = models.ImageField(verbose_name='Изображение 1', blank=True)
+    image2 = models.ImageField(verbose_name='Изображение 2', blank=True)
+    image3 = models.ImageField(verbose_name='Изображение 3', blank=True)
+    image4 = models.ImageField(verbose_name='Изображение 4', blank=True)
+    description = models.TextField(verbose_name='Описание', blank=True)
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
 
     def __str__(self):
@@ -280,10 +308,13 @@ class Lenses_rad(models.Model):
 
 
 class Lenses(Product):
-    meaning = models.BooleanField(default=0)
+    manufacturer = models.ForeignKey('Lenses_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
+    material = models.ForeignKey('Lenses_material', on_delete=models.CASCADE, verbose_name="Материал")
+    type = models.ForeignKey('Lenses_type', on_delete=models.CASCADE, verbose_name="Тип")
+    meaning = models.BooleanField(verbose_name="UVA/UVB защита", default=0)
     moisture = models.IntegerField(verbose_name="Влагосодержание", validators=[MaxValueValidator(100)])
     oxygen = models.IntegerField(verbose_name="Пропускание кислорода")
-    diameter = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Цена')
+    diameter = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Диаметр')
     class Meta:
         verbose_name = 'Линзы'
         verbose_name_plural = '(2.0) Линзы'
@@ -310,8 +341,11 @@ class CartProduct(models.Model):
         verbose_name_plural = '(3.2) Продукты в корзине'
 
     def __str__(self):
-        return "Продукт: {} (для корзины)".format(self.product.title)
+        return "Продукт: {} (для корзины)".format(self.content_object.title)
 
+    def save(self, *args, **kwargs):
+        self.final_price = self.qty * self.content_object.price
+        super().save(*args, **kwargs)
 #4 Cart
 
 class Cart(models.Model):

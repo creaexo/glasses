@@ -1,0 +1,126 @@
+{% extends 'glasses/base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <div class="uu fdwn">
+        <section class="up">
+            <div class="category_title">
+                <a href="#"></a>
+                <a href="#">Сортировать по: Возрастанию цены</a>
+            </div>
+        </section>
+        <div class="middle ais">
+            <ul class="product_list">
+                <li class="card1">
+                    <div class="card">
+                        <a href="#">
+                            <div class="imgbox1">
+                                <img src="/img/g1.jpg" alt="">
+                            </div>
+                        </a>
+                        <h3>Enni Marco 11531 17</h3>
+                        <div class="down_card2">
+                            <p>4 499₽</p>
+                            <div class="fl2">
+                                <a href="#">
+                                    <div class="basket"></div>
+                                </a>
+                                <a href="#">
+                                    <div class="heart"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <form action="" method="get" class="criteria_form">
+
+                <h3>Категория</h3>
+                <div class="criteria_list">
+                    <label for="category" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category" value="0">
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+                    <label for="category1" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category1" value="1">
+                        <span class="criteria_text">Однодневные</span>
+                    </label>
+                    <label for="category2" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category2" value="2">
+                        <span class="criteria_text">2 недели</span>
+                    </label>
+                    <label for="category3" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category3" value="3">
+                        <span class="criteria_text">1 месяц</span>
+                    </label>
+                    <label for="category4" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category4" value="4">
+                        <span class="criteria_text">3 месяца</span>
+                    </label>
+                </div>
+
+                <h3>Тип</h3>
+                <div class="criteria_list">
+                    <label for="type" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type" value="0">
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+                    <label for="type1" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type1" value="1">
+                        <span class="criteria_text">Астигматические</span>
+                    </label>
+                    <label for="type2" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type2" value="2">
+                        <span class="criteria_text">Мультифокальные</span>
+                    </label>
+                    <label for="type3" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type3" value="3">
+                        <span class="criteria_text">Сферические</span>
+                    </label>
+                    <label for="type4" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type4" value="4">
+                        <span class="criteria_text">Цветные</span>
+                    </label>
+                </div>
+
+                <h3>Цена</h3>
+                <div class="criteria_list">
+                    <label for="price" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price" id="price" placeholder="От">
+                    </label>
+                    <label for="price1" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price" id="price1" placeholder="До">
+                    </label>
+                </div>
+
+                <h3>Производитель</h3>
+                <div class="criteria_list">
+                    <label for="manufacturer1" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer1" id="manufacturer1" value="0">
+                        <span class="square"></span>
+                        <span class="criteria_text">Adria</span>
+                    </label>
+                    <label for="manufacturer2" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer2" id="manufacturer2" value="0">
+                        <span class="square"></span>
+                        <span class="criteria_text">Alcon</span>
+                    </label>
+                    <label for="manufacturer3" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer3" id="manufacturer3" value="0">
+                        <span class="square"></span>
+                        <span class="criteria_text">Bausch & Lomb</span>
+                    </label>
+                    <label for="manufacturer4" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer4" id="manufacturer4" value="0">
+                        <span class="square"></span>
+                        <span class="criteria_text">CooperVision</span>
+                    </label>
+                </div>
+                <input type="submit" value="Применить">
+            </form>
+            
+        </div>
+    </div>
+
+{% endblock content %}

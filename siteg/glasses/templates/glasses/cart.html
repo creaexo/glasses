@@ -1,0 +1,43 @@
+{% extends 'glasses/base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <form method="post" class="uu fdwn">
+        <section class="up">
+            <h1>Корзина</h1>
+            <div class="basket_up">
+                <a href="#">Выбрать всё</a>
+                <input type="submit" value="Оплатить" class="pay">
+            </div>
+        </section>
+
+        <ul class="basket_list">
+
+            {% for item in cart.products.all %}
+            <label for="{{ item.content_object.pk }}" class="basket_product card1">
+
+                <input type="checkbox" id="{{ item.content_object.pk }}">
+                <span class="square gre"></span>
+                <span class="card">
+                    <div class="imgbox2">
+                        {% if item.content_object.image1 != None  %}
+                        <img src="{{ item.content_object.image1.url }}" alt="">
+                        {% else %}
+                        <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                        {% endif %}
+                    </div>
+                    <h3>{{ item.content_object.title }}</h3>
+                    <div class="down_card3">
+                        <p>{{ item.content_object.price }}₽</p>
+                        <a href="#">
+                            удалить
+                        </a>
+                    </div>
+                </span>
+            </label>
+            {% endfor %}
+
+        </ul>
+    </form>
+{% endblock content %}
