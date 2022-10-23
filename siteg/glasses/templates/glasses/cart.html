@@ -5,7 +5,12 @@
 
     <form method="post" class="uu fdwn">
         <section class="up">
-            <h1>Корзина</h1>
+
+            <div class="basket_lup basket_up">
+                <h1>Корзина</h1>
+                <a href="#">Всего товаров: {{ cart.total_products }}</a>
+                <a href="#">На сумму: {{ cart.final_price }}₽</a>
+            </div>
             <div class="basket_up">
                 <a href="#">Выбрать всё</a>
                 <input type="submit" value="Оплатить" class="pay">

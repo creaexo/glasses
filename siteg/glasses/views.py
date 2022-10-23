@@ -9,7 +9,7 @@ from .models import *
 from django.views.generic import DetailView, View
 from .mixins import *
 from django.contrib.contenttypes.models import ContentType
-class ProductDetailView(CategoryDetailMixin, DetailView):
+class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
     CT_MODEL_MODEL_CLASS = {
         'glasses': Glasses,
@@ -30,7 +30,7 @@ class ProductDetailView(CategoryDetailMixin, DetailView):
         context['ct_model'] = self.model._meta.model_name
         return context
 
-class CategoryDetailView(CategoryDetailMixin, DetailView):
+class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
     model = Category
     queryset = Category.objects.all()
@@ -39,43 +39,38 @@ class CategoryDetailView(CategoryDetailMixin, DetailView):
     slug_url_kwarg = 'slug'
 
 
-class AddToCartView(View):
+class AddToCartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
         ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
-        customer = Customer.objects.get(user=request.user)
-        cart = Cart.objects.get(owner=customer, in_order=False)
         content_type = ContentType.objects.get(model=ct_model)
         product = content_type.model_class().objects.get(slug=product_slug)
         cart_product, created = CartProduct.objects.get_or_create(
-            user=cart.owner, cart=cart, content_type=content_type, object_id=product.id
+            user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id
         )
         if created:
-            cart.products.add(cart_product)
+            self.cart.products.add(cart_product)
+        self.cart.save()
         return HttpResponseRedirect('/cart/')
-class BaseView(View):
+class BaseView(CartMixin, View):
     def get(self, request, *args, **kwargs):
-        customer = Customer.objects.get(user=request.user)
         products_g = LatestProducts.objects.get_products_for_main_page('glasses')
         products_l = LatestProducts.objects.get_products_for_main_page('lenses')
         products_s = LatestProducts.objects.get_products_for_main_page('stock')
-        cart = Cart.objects.get(owner=customer)
         context = {
             'products_g': products_g,
             'products_l': products_l,
             'products_s': products_s,
-            'cart': cart,
+            'cart': self.cart,
         }
         return render(request, "glasses/base.html", context)
 
 
-class CartView(View):
+class CartView(CartMixin,View):
 
     def get(self, request, *args, **kwargs):
-        customer = Customer.objects.get(user=request.user)
-        cart = Cart.objects.get(owner=customer)
         context = {
-            'cart': cart
+            'cart': self.cart
         }
         return render(request, 'glasses/cart.html', context)
 def person(request):
