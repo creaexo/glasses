@@ -6,26 +6,33 @@
     <div class="uu fdwn">
         <section class="up">
             <div class="category_title">
-                <a href="#"></a>
+                <a href="#">{{ category.name }}</a>
                 <a href="#">Сортировать по: Возрастанию цены</a>
             </div>
         </section>
         <div class="middle ais">
             <ul class="product_list">
-                <li class="card1">
+                  {% for product in category_products %}
+                <a href="{{ product.get_absolute_url }}">
+                                    <li class="card1">
                     <div class="card">
-                        <a href="#">
+                        <a href="{{ product.get_absolute_url }}">
                             <div class="imgbox1">
-                                <img src="/img/g1.jpg" alt="">
+                                {% if product.image1 != None  %}
+                        <img src="{{ product.image1.url }}" alt="">
+                        {% else %}
+                        <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                        {% endif %}
                             </div>
                         </a>
-                        <h3>Enni Marco 11531 17</h3>
+                        <a href="{{ product.get_absolute_url }}"><h3>{{ product.title }}</h3></a>
                         <div class="down_card2">
-                            <p>4 499₽</p>
+                            <p>{{ product.price }}₽</p>
                             <div class="fl2">
+                                <!--
                                 <a href="#">
                                     <div class="basket"></div>
-                                </a>
+                                </a> -->
                                 <a href="#">
                                     <div class="heart"></div>
                                 </a>
@@ -33,6 +40,9 @@
                         </div>
                     </div>
                 </li>
+                </a>
+
+                {% endfor %}
             </ul>
             <form action="" method="get" class="criteria_form">
 

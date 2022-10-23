@@ -8,8 +8,10 @@ plusBtn.onclick = function() {
 }
 minusBtn.onclick = function() {
   var qty = parseInt(numCount.value);
+      if (qty>1){
   qty = qty - 1;
   numCount.value = qty;
+  }
 }
 
 
@@ -19,10 +21,12 @@ $(document).ready(function() {
         if ($(this).attr("value") == "two_y") {
           $(".quiz1").show();
           $(".quiz2").hide();
+          $('#form_cart').push();
         }
         if ($(this).attr("value") == "one_y") {
           $(".quiz1").hide();
           $(".quiz2").show();
+          $('#form_cart').sisyphus();
         }
       });
   });

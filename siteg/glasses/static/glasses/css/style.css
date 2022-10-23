@@ -304,9 +304,19 @@ header nav a{
 
 
 .card{
-margin: 20px 20px ;
+    margin: 20px 20px ;
     height: 24rem;
     width: 24rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.ccard{
+    margin: 20px 20px ;
+    height: 28rem;
+    width:28rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -316,7 +326,7 @@ margin: 20px 20px ;
 .card h3, .card .h3{
     font-size: 1.8rem;
     font-weight: 500;
-
+    margin-top: 1rem;
 }
 .card p{
     font-size: 1.6rem;
@@ -338,7 +348,7 @@ margin: 20px 20px ;
 }
 
 .imgbox1{
-    height: 15rem;
+    height: 14rem;
     width: 24rem;
     display: flex;
     align-items: center;
@@ -355,6 +365,7 @@ margin: 20px 20px ;
 display: flex;
 justify-content: center;
 align-items: center;
+height: 35rem;
 }
 
 .imgbox3 img {
@@ -1145,6 +1156,19 @@ z-index: -1000;
     background-color: #69B02E;
 }
 
+.greq{
+    position: absolute;
+    margin: 1.15rem 0rem 0 28rem;
+    width: 2.6rem;
+    height: 2.6rem;
+}
+
+.im26{
+    width: 2.6rem;
+    height: 2.6rem;
+
+}
+
 .basket_product {
     margin-top: 2rem;
 }
@@ -1159,8 +1183,17 @@ z-index: -1000;
 }
 
 .imgbox2 {
-    height: 12rem;
+    height: 15rem;
     width: 24rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+}
+
+.cimgbox2 {
+    height: 15rem;
+    width: 28rem;
     display: flex;
     align-items: center;
     margin-bottom: 1.5rem;
@@ -1293,6 +1326,64 @@ margin-left: 2rem;
 	width: 57px;
 	text-align: center;
 }
+/**/
+
+.number2 {
+	user-select: none;
+	position: relative;
+	text-align: left;
+	padding: 0;
+	width: 100px;
+	border: 1px solid #ddd;
+	display: inline-block;
+}
+.number2-minus, .number2-plus {
+	position: absolute;
+	top: 0;
+	width: 30px;
+	height: 32px;
+	line-height: 32px;
+	display: block;
+	background: #dfdfdf;
+	font-size: 20px;
+	font-weight: 600;
+	text-align: center;
+	font-family: arial;
+	color: #3e1e02;
+	text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+.number2-minus {
+	left: 0;
+	border-right: 1px solid #ddd;
+
+}
+.number2-plus {
+	right: 0;
+	border-left: 1px solid #ddd;
+
+}
+.number2-minus:hover, .number2-plus:hover {
+	background: #fffcfb;
+}
+.number2-minus:active, .number2-plus:active {
+	background: #e8e4e2;
+}
+.number2-text{
+	display: inline-block;
+	font-size: 14px;
+	color: #000;
+	line-height: 32px;
+	height: 32px;
+	padding: 0;
+	margin: 0 0 0 20px;
+	background: #fff;
+	outline: none;
+	border: none;
+	width: 57px;
+	text-align: center;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -1419,4 +1510,44 @@ word-wrap: break-word;
 .eue{
     width: 118rem;
 word-wrap: break-word;
+}
+
+.sendsubmitc {
+background: transparent url(../img/okk.svg) no-repeat center top;
+    width: 3rem;
+    height: 3rem;
+margin-left: 1rem;
+background-size: cover;
+background-size:100% 100%;
+text-indent: -1000em;
+cursor: pointer;
+cursor: hand;
+border: 0;
+}
+
+.clicker {
+margin-top: 3rem:
+}
+
+.clicker p{
+  width:1180px;
+  height: 50px;
+  border-radius: 15px;
+  background: rgba(105, 176, 46, 0.8);
+  outline:none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+font-size: 28px;
+color: #fff;
+margin-top: 3rem:
+  }
+
+.hid{
+  position: absolute;
+  left: 1150px;
+  top: -14px;
+  cursor:pointer;
 }

@@ -220,7 +220,8 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-
+    def get_model_name(self):
+        return self.__class__.__name__.lower()
 class Glasses(Product):
     glasses_size = models.ForeignKey('Glasses_size', on_delete=models.CASCADE, verbose_name="Размер очков")
     glasses_gender = models.ForeignKey('Glasses_gender', on_delete=models.CASCADE, verbose_name="Пол")
@@ -346,6 +347,7 @@ class CartProduct(models.Model):
     def save(self, *args, **kwargs):
         self.final_price = self.qty * self.content_object.price
         super().save(*args, **kwargs)
+
 #4 Cart
 
 class Cart(models.Model):

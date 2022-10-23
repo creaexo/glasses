@@ -91,10 +91,9 @@
         </div>
         <div class="center1">
             <div class="list">
+                {% for product in products_a %}
                 <!-- карточка товара-->
-                                {% for product in products_a %}
-                <!-- карточка товара-->
-                <a href="##">
+                <a href="{{ product.get_absolute_url }}">
                 <div class="card1" >
                     <div class="card">
 
@@ -119,6 +118,7 @@
                     </div>
                 </div>
                 </a>
+                <!-- карточка товара-->
                 {% endfor %}
             </div>
         </div>
@@ -135,7 +135,7 @@
             <div class="list">
                 {% for product in products_g %}
                 <!-- карточка товара-->
-                <a href="##">
+                <a href="{{ product.get_absolute_url }}">
                 <div class="card1" >
                     <div class="card">
 
@@ -177,9 +177,9 @@
         </div>
         <div class="center1">
             <div class="list">
-                                {% for product in products_l %}
+                {% for product in products_l %}
                 <!-- карточка товара-->
-                <a href="##">
+                <a href="{{ product.get_absolute_url }}">
                 <div class="card1" >
                     <div class="card">
 
@@ -204,6 +204,7 @@
                     </div>
                 </div>
                 </a>
+                <!-- карточка товара-->
                 {% endfor %}
 
 

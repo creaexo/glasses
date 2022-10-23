@@ -3,7 +3,18 @@
 {% load static %}
 {% block content %}
 
-    <form method="post" class="uu fdwn">
+    <div class="uu fdwn" id="form_cart">
+        {% if messages %}
+    {% for message in messages %}
+        <div class="up">
+
+
+        <div class="clicker" id="clicker">
+            <p>{{ message }}</p>
+        </div>
+                    </div>
+    {% endfor %}
+{% endif %}
         <section class="up">
 
             <div class="basket_lup basket_up">
@@ -24,25 +35,42 @@
 
                 <input type="checkbox" id="{{ item.content_object.pk }}">
                 <span class="square gre"></span>
-                <span class="card">
-                    <div class="imgbox2">
+                <a href="{% url 'delete_from_cart' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" class="greq">
+                    <img src="{% static '/glasses/img/del.svg' %}" alt="" class="im26">
+                </a>
+                <span class="card ccard">
+                    <div class="imgbox2 cimgbox2">
                         {% if item.content_object.image1 != None  %}
                         <img src="{{ item.content_object.image1.url }}" alt="">
                         {% else %}
                         <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
                         {% endif %}
                     </div>
+
                     <h3>{{ item.content_object.title }}</h3>
+
+
                     <div class="down_card3">
                         <p>{{ item.content_object.price }}₽</p>
-                        <a href="#">
-                            удалить
-                        </a>
+                    <div class="qch">
+
+                        <div class="number2" data-step="1" data-min="1" data-max="100">
+                            <form action="{% url 'change_qty' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" class="qch" id="qty_f" method="post">
+                                                        {% csrf_token %}
+                                <input type="number" step="1" min="1" max="100" id="num_count" name="quantity" value="{{ item.qty }}" title="Qty" class="number2-text">
+                            </form>
+                        <input type="button" value="-" id="button_minus" class="number2-minus bmj">
+                        <input type="button" value="+" id="button_plus" class="number2-plus bmj">
+
+
+                    </div>
+                         <input type="submit" class="sendsubmitc" name="qty" form="qty_f">
+                    </div>
                     </div>
                 </span>
             </label>
             {% endfor %}
 
         </ul>
-    </form>
+    </div>
 {% endblock content %}
