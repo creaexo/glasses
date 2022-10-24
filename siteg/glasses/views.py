@@ -1,5 +1,6 @@
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
+from django.db import transaction
 from django.shortcuts import render
 
 # Create your views here.
@@ -18,8 +19,10 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
     CT_MODEL_MODEL_CLASS = {
         'glasses': Glasses,
-        'lenses': Lenses
+        'lenses': Lenses,
+        'sph': Glasses_linces_sph,
     }
+    sph = Glasses_linces_sph
 
     def dispatch(self, request, *args, **kwargs):
         self.model = self.CT_MODEL_MODEL_CLASS[kwargs['ct_model']]
@@ -34,6 +37,7 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['ct_model'] = self.model._meta.model_name
         context['cart'] = self.cart
+        context['sph'] = self.sph
         return context
 
 class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
@@ -55,13 +59,39 @@ class AddToCartView(CartMixin, View):
         content_type = ContentType.objects.get(model=ct_model)
         product = content_type.model_class().objects.get(slug=product_slug)
         quantity = request.GET.get("quantity")
+
+        if product.category.slug == 'glasses':
+            right_sph = request.GET.get("right_sph")
+            right_cyl = request.GET.get("right_cyl")
+            right_ax = request.GET.get("right_ax")
+            left_sph = request.GET.get("left_sph")
+            left_cyl = request.GET.get("left_cyl")
+            left_ax = request.GET.get("left_ax")
+            pd1 = request.GET.get("pd1")
+            pd2 = request.GET.get("pd2")
+            glist = f"Правый глаз: sph={right_sph}, cyl={right_cyl}, ax={right_ax};\n Левый глаз: sph={left_sph}, cyl={left_cyl}, ax={left_ax};\n pd1={pd1}, pd2={pd2}"
+        elif product.category.slug == 'lenses':
+            right_sph = request.GET.get("right_sph")
+            right_cyl = request.GET.get("right_cyl")
+            left_sph = request.GET.get("left_sph")
+            left_cyl = request.GET.get("left_cyl")
+            glist = f"Правый глаз: sph={right_sph}, cyl={right_cyl};\n Левый глаз: sph={left_sph}, cyl={left_cyl}"
+        else:
+            glist = f"Нету дополнительных параметров"
         cart_product, created = CartProduct.objects.get_or_create(
-            user=self.cart.owner, cart=self.cart, content_type=content_type, qty=int(quantity), object_id=product.id
+            user=self.cart.owner,
+            cart=self.cart,
+            content_type=content_type,
+            qty=int(quantity),
+            object_id=product.id,
+            glist=glist,
+
         )
         print(f"quantity = {quantity}")
         if created:
             self.cart.products.add(cart_product)
         self.cart.save()
+
         messages.add_message(request, messages.INFO, "Товар добавленв корзину")
         return HttpResponseRedirect('/cart/')
 
@@ -121,18 +151,6 @@ class CartView(CartMixin,View):
         return render(request, 'glasses/cart.html', context)
 
 
-class CheckoutView(CartMixin, View):
-
-    def get(self, request, *args, **kwargs):
-        categories = Category.objects.get_categories_for_left_sidebar()
-        form = OrderForm(request.POST or None)
-        context = {
-            'cart': self.cart,
-            'categories': categories,
-            'form': form
-        }
-        return render(request, 'checkout.html', context)
-
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'glasses/register.html'
@@ -165,6 +183,45 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+
+class CheckoutView(CartMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        categories = Category.objects.get_categories_for_left_sidebar()
+        form = OrderForm(request.POST or None)
+        context = {
+            'cart': self.cart,
+
+            'form': form
+        }
+        return render(request, 'checkout.html', context)
+
+
+class MakeOrderView(CartMixin, View):
+
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        form = OrderForm(request.POST or None)
+        customer = Customer.objects.get(user=request.user)
+        if form.is_valid():
+            new_order = form.save(commit=False)
+            new_order.customer = customer
+            new_order.first_name = form.cleaned_data['first_name']
+            new_order.last_name = form.cleaned_data['last_name']
+            new_order.phone = form.cleaned_data['phone']
+            new_order.address = form.cleaned_data['address']
+            new_order.buying_type = form.cleaned_data['buying_type']
+            new_order.order_date = form.cleaned_data['order_date']
+            new_order.comment = form.cleaned_data['comment']
+            new_order.save()
+            self.cart.in_order = True
+            self.cart.save()
+            new_order.cart = self.cart
+            new_order.save()
+            customer.orders.add(new_order)
+            messages.add_message(request, messages.INFO, 'Спасибо за заказ! Менеджер с Вами свяжется')
+            return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/checkout/')
 def person(request):
     return render(request, "glasses/person.html")
 

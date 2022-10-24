@@ -16,6 +16,32 @@ class LensesAdmin(admin.ModelAdmin):
         if db_field.name == 'category':
             return ModelChoiceField(Category.objects.filter(slug='lenses'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class Sun_GlassesAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return ModelChoiceField(Category.objects.filter(slug='sun_glasses'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class Care_ProductsAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return ModelChoiceField(Category.objects.filter(slug='care_products'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+class AccessoriesAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return ModelChoiceField(Category.objects.filter(slug='accessories'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+class StocksAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return ModelChoiceField(Category.objects.filter(slug='stock'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 #Общее
 admin.site.register(Cart)
 admin.site.register(CartProduct)
@@ -48,3 +74,12 @@ admin.site.register(Lenses_manufacturer)
 
 
 admin.site.register(Order)
+
+#Остальное
+admin.site.register(Sun_Glasses, Sun_GlassesAdmin)
+admin.site.register(Care_Products, Care_ProductsAdmin)
+admin.site.register(Accessories, AccessoriesAdmin)
+admin.site.register(Stocks, StocksAdmin)
+
+admin.site.register(Other_type)
+admin.site.register(Other_manufacturer)

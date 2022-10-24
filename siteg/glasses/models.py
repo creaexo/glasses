@@ -67,11 +67,11 @@ class CategoryManager(models.Manager):
     def get_categories_for_left_sidebar(self):
         models = get_models_for_count('glasses', 'lenses')
         qs = list(self.get_queryset().annotate(*models).values())
-        data = [
-            dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
-            for c in qs
-        ]
-        return data
+        #data = [
+            #dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
+        #    for c in qs
+        #]
+        #return data
 
 class Category(models.Model):
     slug = models.SlugField(max_length=100, auto_created=True)
@@ -160,18 +160,23 @@ class Glasses_form(models.Model):
 
 
 class Glasses_linces_sph(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Сфера (Sph)')
+    value = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Сфера (Sph)')
 
     class Meta:
         verbose_name = 'Сфера (Sph)'
         verbose_name_plural = '(1.7.1) Сфера (Sph)'
 
     def __str__(self):
-        return self.value
+        return str(self.value)
 
+
+    def __init__(self, value):
+        """Инициализация"""
+        self.name = value
+        Glasses_linces_sph.items.append(self)
 
 class Glasses_linces_cyl(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Цилиндр (Cyl)')
+    value = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Цилиндр (Cyl)')
 
     class Meta:
         verbose_name = 'Цилиндр (Cyl)'
@@ -193,7 +198,7 @@ class Glasses_linces_ax(models.Model):
 
 
 class Glasses_linces_pd(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='РМЦ (PD)')
+    value = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='РМЦ (PD)')
 
     class Meta:
         verbose_name = 'РМЦ (PD)'
@@ -216,7 +221,7 @@ class Product(models.Model):
     image3 = models.ImageField(verbose_name='Изображение 3', blank=True)
     image4 = models.ImageField(verbose_name='Изображение 4', blank=True)
     description = models.TextField(verbose_name='Описание', blank=True)
-    price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
+    price = models.DecimalField(max_digits=9, decimal_places=1, verbose_name='Цена')
 
     def __str__(self):
         return self.title
@@ -321,12 +326,105 @@ class Lenses(Product):
         verbose_name = 'Линзы'
         verbose_name_plural = '(2.0) Линзы'
 
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+class Sun_Glasses(Product):
+    glasses_size = models.ForeignKey('Glasses_size', on_delete=models.CASCADE, verbose_name="Размер очков")
+    glasses_gender = models.ForeignKey('Glasses_gender', on_delete=models.CASCADE, verbose_name="Пол")
+    manufacturer = models.ForeignKey('Glasses_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
+    frame_material = models.ForeignKey('Glasses_frame_material', on_delete=models.CASCADE, verbose_name="Материал оправы")
+    frame_type = models.ForeignKey('Glasses_frame_type', on_delete=models.CASCADE, verbose_name="Тип оправы")
+    glasses_form = models.ForeignKey('Glasses_form', on_delete=models.CASCADE, verbose_name="Форма очков")
+    Lenses_height = models.IntegerField(verbose_name="Высота линзы")
+    Lenses_width = models.IntegerField(verbose_name="Ширина линзы")
+    Lenses_length = models.IntegerField(verbose_name="Длина линзы")
+    Lenses_bridge = models.IntegerField(verbose_name="Высота линзы")
+
+    class Meta:
+        verbose_name = '[3.0] Солнцезащитные очки'
+        verbose_name_plural = '(3.0) Солнцезащитные очки'
+
+    def __str__(self):
+        return "{} : {}".format(self.category, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+
+class Other_manufacturer(models.Model):
+    title = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'Производитель линз'
+        verbose_name_plural = '(2.1) Производители линз'
+
+
+    def __str__(self):
+        return self.title
+
+
+class Other_type(models.Model):
+    title = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'Тип линз'
+        verbose_name_plural = '(2.2) Типы линз'
+
+    def __str__(self):
+        return self.title
+
+
+class Care_Products(Product):
+    manufacturer = models.ForeignKey('Other_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
+    type = models.ForeignKey('Other_type', on_delete=models.CASCADE, verbose_name="Тип")
+
+    class Meta:
+        verbose_name = '[4.0] Средство по уходу'
+        verbose_name_plural = '(4.0) Средства по уходу'
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return get_product_url(self, 'product_detail')
+
+
+
+class Accessories(Product):
+    manufacturer = models.ForeignKey('Other_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
+    type = models.ForeignKey('Other_type', on_delete=models.CASCADE, verbose_name="Тип")
+
+    class Meta:
+        verbose_name = '[5.0] Аксессуар'
+        verbose_name_plural = '(5.0) Аксессуары'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+class Stocks(Product):
+    new_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Новая цена')
+    manufacturer = models.ForeignKey('Other_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
+    type = models.ForeignKey('Other_type', on_delete=models.CASCADE, verbose_name="Тип")
+
+    class Meta:
+        verbose_name = '[6.0] Акция'
+        verbose_name_plural = '(6.0) Акции'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
 #3 CartProduct
 
 class CartProduct(models.Model):
@@ -337,10 +435,10 @@ class CartProduct(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
     qty = models.PositiveIntegerField(default=1)
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
-
+    glist = models.TextField(verbose_name="Параметры", default='')
     class Meta:
         verbose_name = 'Продукт в корзине'
-        verbose_name_plural = '(3.2) Продукты в корзине'
+        verbose_name_plural = '(7.2) Продукты в корзине'
 
     def __str__(self):
         return "Продукт: {} (для корзины)".format(self.content_object.title)
@@ -362,20 +460,11 @@ class Cart(models.Model):
 
     class Meta:
         verbose_name = 'Корзина'
-        verbose_name_plural = '(3.1) Корзины'
+        verbose_name_plural = '(7.1) Корзины'
 
     def __str__(self):
         return str(self.id)
 
-    def save(self, *args, **kwargs):
-        cart_data = self.products.aggregate(models.Sum('final_price'), models.Count('id'))
-        print(cart_data)
-        if cart_data.get('final_price__sum'):
-            self.final_price = cart_data.get('final_price__sum')
-        else:
-            self.final_price = 0
-        self.total_products = cart_data['id__count']
-        super().save(*args, **kwargs)
 
 #5 LikeProduct
 
@@ -388,7 +477,7 @@ class LikeProduct(models.Model):
 
     class Meta:
         verbose_name = 'Понравившийся продукт'
-        verbose_name_plural = '(3.3) Понравившиеся продукты'
+        verbose_name_plural = '(7.3) Понравившиеся продукты'
 
     def __str__(self):
         return "Продукт: {} (Понравившееся)".format(self.product.title)
@@ -407,7 +496,7 @@ class Like(models.Model):
 
     class Meta:
         verbose_name = 'Понравившееся'
-        verbose_name_plural = '(3.3) Понравившееся'
+        verbose_name_plural = '(7.4) Понравившееся'
 
 
     def __str__(self):
@@ -427,7 +516,7 @@ class Customer(models.Model):
     USERNAME_FIELD = "username"
     class Meta:
         verbose_name = 'Пользователь'
-        verbose_name_plural = '(3.0) Пользователи'
+        verbose_name_plural = '(7.0) Пользователи'
 
 
     def __str__(self):
@@ -480,4 +569,8 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
 
+
+    class Meta:
+        verbose_name = '    Заказ'
+        verbose_name_plural = '         Заказы'
 

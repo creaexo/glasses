@@ -16,7 +16,8 @@ urlpatterns = [
     path('add-to-cart/<str:ct_model>/<str:slug>/', AddToCartView.as_view(), name='add_to_cart'),
     path('remove-from-cart/<str:ct_model>/<str:slug>/', DeleteFromCartView.as_view(), name='delete_from_cart'),
     path('change_qty/<str:ct_model>/<str:slug>/', ChangeQTYView.as_view(), name='change_qty'),
-    path('сheckout/', CheckoutView.as_view(), name='сheckout'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('logout/', logout_user, name='logout'),
+
 ]

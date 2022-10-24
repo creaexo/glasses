@@ -19,7 +19,6 @@ class OrderForm(forms.ModelForm):
             'first_name', 'last_name', 'phone', 'address', 'buying_type', 'order_date', 'comment'
         )
 
-
 class RegisterUserForm(UserCreationForm):
     CHOICES = [('Мужской', 'Мужской'),
                ('Женский', 'Женский')]
