@@ -1,15 +1,19 @@
+from django.contrib.auth import logout
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 
 # Create your views here.
 import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-
+from django.views.generic import ListView, DetailView, CreateView, FormView
 from .models import *
 from django.views.generic import DetailView, View
 from .mixins import *
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
+from django.urls import reverse_lazy
+from .forms import *
 class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
     CT_MODEL_MODEL_CLASS = {
@@ -92,6 +96,8 @@ class ChangeQTYView(CartMixin, View):
         messages.add_message(request, messages.INFO, "Кол-во успешно изменено")
         print(request.POST)
         return HttpResponseRedirect('/cart/')
+
+
 class BaseView(CartMixin, View):
     def get(self, request, *args, **kwargs):
         products_g = LatestProducts.objects.get_products_for_main_page('glasses')
@@ -113,6 +119,52 @@ class CartView(CartMixin,View):
             'cart': self.cart
         }
         return render(request, 'glasses/cart.html', context)
+
+
+class CheckoutView(CartMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        categories = Category.objects.get_categories_for_left_sidebar()
+        form = OrderForm(request.POST or None)
+        context = {
+            'cart': self.cart,
+            'categories': categories,
+            'form': form
+        }
+        return render(request, 'checkout.html', context)
+
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'glasses/register.html'
+    success_url = reverse_lazy('login')
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return dict(list(context.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request)
+        return redirect('index')
+
+
+class LoginUser(LoginView):
+    form_class = LoginUserForm
+    template_name = 'glasses/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(list(context.items()))
+
+
+    def get_success_url(self):
+        return reverse_lazy('index')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
 def person(request):
     return render(request, "glasses/person.html")
 

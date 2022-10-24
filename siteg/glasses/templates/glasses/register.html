@@ -1,0 +1,25 @@
+{% extends 'glasses/base.html' %}
+
+{% block content %}
+    <div class="center1200">
+ <form action="" method="POST" name="person" class="person">
+            <section class="up">
+                <h1>Регистрация</h1>
+            </section>
+            <section class="personal_data md">
+                    {% for f in form %}
+                {% csrf_token %}
+                <label for="{{ f.id_for_label }}">{{f.label}} {{ f.errors }}
+                    {{ f }}
+                                    </label>
+                    {% endfor %}
+
+                    <div class="signin">
+                        <input type="submit" value="Зарегистрироваться" class="regg">
+                        <a href="#" class="have">У меня уже есть аккаунт</a>
+                    </div>
+
+            </section>
+        </form>
+    </div>
+{% endblock %}

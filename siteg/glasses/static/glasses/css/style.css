@@ -204,6 +204,14 @@ header nav a{
     border-radius: 2rem;
 }
 
+.silo a:last-child:hover{
+    color: #548D25;
+    background: none;
+    margin-left: 3rem;
+    padding: 0.8rem 1rem ;
+    border-radius: 0rem;
+}
+
 /*товары*/
 
 .centerr{
@@ -593,7 +601,7 @@ footer nav a{
 
 .personal_data label:not(.rad, .regg), .adres label{
     font-size: 2.8rem;
-    width: 30rem;
+    width: 29rem;
 
     margin-top: 5rem;
     font-weight: 700;
