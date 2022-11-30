@@ -12,7 +12,7 @@
                     {% csrf_token %}
                 <section class="personal_data md fend">
                     {% for f in form %}
-                        <label for="{{ f.id_for_label }}">{{f.label}}
+                        <label for="{{ f.id_for_label }}"">{{f.label}}
                     {{ f }}
                         </label>
                     {% endfor %}

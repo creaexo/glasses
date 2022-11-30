@@ -249,8 +249,8 @@ header nav a{
 /*фон*/
 .bg {
     height: 88rem;
-    background: url(../img/bgi1.png);
-
+    background: url(../img/bgi1.png) no-repeat;
+    width: 100%;
 }
 
 .bg h1{
@@ -379,6 +379,12 @@ height: 35rem;
 .imgbox3 img {
     max-width: 95%;
     max-height: 100%;
+}
+
+
+.order_img {
+    max-width: 20rem;
+    max-height: 20rem;
 }
 
 .list{
@@ -611,7 +617,11 @@ footer nav a{
     margin-right: 10rem;
 }
 
-.personal_data input:not(.rad, .regg), .adres input{
+.personal_data label:nth-child(7n):not(.id_password2),.personal_data label textarea{
+    width: 72rem;
+}
+
+.personal_data input:not(.rad, .regg, .order_sub), .adres input, .personal_data select, .personal_data select option{
     font-size: 2.4rem;
     border: #585856 solid 2px;
     border-radius: 5px;
@@ -619,13 +629,23 @@ footer nav a{
     padding: 1.5rem;
     margin-top: 2rem;
 }
-
+.personal_data select, .personal_data select option{
+    width: 33.3rem;
+}
 .field{
     display: flex;
     flex-direction: column;
 
 }
-
+.order_sub{
+    font-size: 2.4rem;
+    border: #585856 solid 2px;
+    border-radius: 5px;
+    width: 33rem;
+    padding: 1.5rem;
+    margin-top: 8rem;
+    margin-left: -4rem;
+}
 /*радио*/
 
 .gender{
@@ -732,8 +752,9 @@ text-align: center;
 
 .signin{
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    margin-top: 10rem;
 }
 
 .signin a, .login a{
@@ -754,13 +775,14 @@ text-align: center;
     background-color: #69B02E;
     border-radius: 3rem;
     cursor: pointer;
-    margin-bottom: 1.5rem;
     font-weight: 500;
 }
 .signin input:hover, .login input:hover{
     background-color:#7fd639;
 }
-
+.have{
+    margin-left:2rem;
+}
 .md{
     margin-bottom: 3rem;
 }
@@ -787,7 +809,7 @@ text-align: center;
     width: 1920px;
     height: 360px;
     background: url(../img/Wave.svg);
-z-index: -1000;
+    z-index: -1000;
 }
 
 /*status*/
@@ -1140,7 +1162,6 @@ z-index: -1000;
     background-color: #69B02E;
     border-radius: 3rem;
 
-    margin-bottom: 1.5rem;
     font-weight: 500;
 }
 
@@ -1534,7 +1555,7 @@ border: 0;
 }
 
 .clicker {
-margin-top: 3rem:
+margin-top: 3rem;
 }
 
 .clicker p{
@@ -1550,7 +1571,7 @@ margin-top: 3rem:
   font-weight: 700;
 font-size: 28px;
 color: #fff;
-margin-top: 3rem:
+margin-top: 3rem;
   }
 
 .hid{
@@ -1558,4 +1579,51 @@ margin-top: 3rem:
   left: 1150px;
   top: -14px;
   cursor:pointer;
+}
+
+.table{
+    margin-top: 3rem;
+}
+
+tr{
+    width: 118rem;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+}
+th{
+font-size: 1.6rem;
+}
+
+tr th{
+font-size: 2.4rem;
+}
+
+td{
+text-align: center;
+font-size: 2rem;
+}
+
+.mtr{
+margin-top: 3rem;
+margin-bottom: 5rem;
+}
+
+.form_linses select, .form_linses option{
+    height: 5rem;
+    width: 20rem;
+    font-size: 1.4rem;
+    margin: 2rem 0;
+    padding-left: 1rem;
+    border-radius: 1.5rem;
+    border: solid 2px;
+}
+
+.lupaa{
+    margin-left: 0.75rem;
+}
+
+.basket_up .opl{
+    color: #548D25;
 }

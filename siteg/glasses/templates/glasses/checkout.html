@@ -3,40 +3,61 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h3 class="text-center mt-5 mb-5">Оформление заказа</h3>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Наименование</th>
-      <th scope="col">Изображение</th>
-      <th scope="col">Цена</th>
-      <th scope="col">Кол-во</th>
-        <th scope="col">Общая цена</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in cart.products.all %}
-        <tr>
-          <th scope="row">{{ item.content_object.title }}</th>
-          <td class="w-25"><img src="{{ item.content_object.image.url }}" class="img-fluid"></td>
-          <td>{{ item.content_object.price }} руб.</td>
-          <td>{{ item.qty }}</td>
+
+<div class="fdwn">
+  <div class="center1200">
+    <div class="person">
+
+      <section class="up">
+        <h1>Оформление заказа</h1>
+      </section>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Наименование</th>
+            <th>Изображение</th>
+            <th>Цена</th>
+            <th>Кол-во</th>
+            <th>Общая цена</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart.products.all %}
+          <tr class="mtr">
+            <th>{{ item.content_object.title }}</th>
+            <td class=""><img src="{{ item.content_object.image1.url }}" class="order_img"></td>
+            <td>{{ item.content_object.price }} руб.</td>
+            <td>{{ item.qty }}</td>
             <td>{{ item.final_price }} руб.</td>
-        </tr>
-    {% endfor %}
-        <tr>
-          <td colspan="2"></td>
-          <td>Итого:</td>
-          <td>{{ cart.total_products }}</td>
-          <td><strong>{{ cart.final_price }} руб.</strong></td>
-        </tr>
-  </tbody>
-</table>
-<hr>
-<h3 class="text-center mt-5 mb-5">Форма заказа</h3>
-<form action="{% url 'make_order' %}" method="POST">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <input type="submit" class="btn btn-success btn-block mb-3" values="Оформить заказ">
-</form>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td></td>
+            <td></td>
+            <td>Итого:</td>
+            <td>{{ cart.total_products }}</td>
+            <th>{{ cart.final_price }} руб.</th>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <form action="{% url 'make_order' %}" method="POST" class="person">
+        {% csrf_token %}
+        <section class="personal_data md">
+          {% for f in form %}
+                {% csrf_token %}
+                <label for="{{ f.id_for_label }}">{{f.label}} {{ f.errors }}
+                  {{ f }}
+                </label>
+          {% endfor %}
+                  <input type="submit" class="order_sub" values="Оформить заказ">
+        </section>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
 {% endblock content %}

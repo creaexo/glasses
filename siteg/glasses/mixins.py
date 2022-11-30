@@ -35,10 +35,10 @@ class CartMixin(View):
                     user=request.user,
                     phone=request.user.phone,
                 )
-                cart = Cart.objects.create(id=customer.pk*20,owner=customer)
+                cart = Cart.objects.create(id=customer.pk*5, owner=customer)
             cart = Cart.objects.filter(owner=customer, in_order=False).first()
             if not cart:
-                cart = Cart.objects.create(id=customer.pk*20, owner=customer)
+                cart = Cart.objects.create(owner=customer)
         else:
             cart = Cart.objects.filter(for_anonymous_user=True).first()
             #if not cart:

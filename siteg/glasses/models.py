@@ -67,11 +67,7 @@ class CategoryManager(models.Manager):
     def get_categories_for_left_sidebar(self):
         models = get_models_for_count('glasses', 'lenses')
         qs = list(self.get_queryset().annotate(*models).values())
-        #data = [
-            #dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
-        #    for c in qs
-        #]
-        #return data
+
 
 class Category(models.Model):
     slug = models.SlugField(max_length=100, auto_created=True)
@@ -160,23 +156,18 @@ class Glasses_form(models.Model):
 
 
 class Glasses_linces_sph(models.Model):
-    value = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Сфера (Sph)')
+    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Сфера (Sph)')
 
     class Meta:
         verbose_name = 'Сфера (Sph)'
         verbose_name_plural = '(1.7.1) Сфера (Sph)'
 
     def __str__(self):
-        return str(self.value)
+        return self.value
 
-
-    def __init__(self, value):
-        """Инициализация"""
-        self.name = value
-        Glasses_linces_sph.items.append(self)
 
 class Glasses_linces_cyl(models.Model):
-    value = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Цилиндр (Cyl)')
+    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Цилиндр (Cyl)')
 
     class Meta:
         verbose_name = 'Цилиндр (Cyl)'
@@ -198,7 +189,7 @@ class Glasses_linces_ax(models.Model):
 
 
 class Glasses_linces_pd(models.Model):
-    value = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='РМЦ (PD)')
+    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='РМЦ (PD)')
 
     class Meta:
         verbose_name = 'РМЦ (PD)'
@@ -466,6 +457,7 @@ class Cart(models.Model):
         return str(self.id)
 
 
+
 #5 LikeProduct
 
 class LikeProduct(models.Model):
@@ -573,4 +565,3 @@ class Order(models.Model):
     class Meta:
         verbose_name = '    Заказ'
         verbose_name_plural = '         Заказы'
-

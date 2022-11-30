@@ -9,7 +9,7 @@
             <section class="personal_data md">
                     {% for f in form %}
                 {% csrf_token %}
-                <label for="{{ f.id_for_label }}">{{f.label}} {{ f.errors }}
+                <label for="{{ f.id_for_label }}" class="{{ f.id_for_label }}">{{f.label}} {{ f.errors }}
                     {{ f }}
                                     </label>
                     {% endfor %}

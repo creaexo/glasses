@@ -9,15 +9,19 @@ class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['order_date'].label = 'Дата получения заказа'
+        self.fields['order_date'].label = 'Дата получения'
 
     order_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
-
+    first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'pizda', 'placeholder': 'Борис'}))
+    last_name = forms.CharField(label='Фамилмя', widget=forms.TextInput(attrs={'placeholder': 'Немцов'}))
+    phone = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'placeholder': '+7 (987) 654 32 10'}))
+    address = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'placeholder': 'г. Москва, ул. Поддубная...'}))
     class Meta:
         model = Order
         fields = (
             'first_name', 'last_name', 'phone', 'address', 'buying_type', 'order_date', 'comment'
         )
+
 
 class RegisterUserForm(UserCreationForm):
     CHOICES = [('Мужской', 'Мужской'),
@@ -36,6 +40,6 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Login'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input', 'placeholder': '********'}))
 
