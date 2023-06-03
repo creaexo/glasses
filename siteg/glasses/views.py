@@ -20,6 +20,9 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
     CT_MODEL_MODEL_CLASS = {
         'glasses': Glasses,
+        'accessories': Accessories,
+        'care_products': Care_Products,
+        'sun_glasses': Sun_Glasses,
         'lenses': Lenses
     }
 
@@ -128,7 +131,7 @@ class BaseView(CartMixin, View):
         return render(request, "glasses/base.html", context)
 
 
-class CartView(CartMixin,View):
+class CartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
         context = {

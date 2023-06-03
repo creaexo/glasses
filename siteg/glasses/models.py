@@ -58,9 +58,11 @@ class CategoryManager(models.Manager):
 
     CATEGORY_NAME_COUNT_NAME = {
         'Очки': 'glasses__count',
+        'Аксессуары': 'accessories__count',
+        'Средства по уходу': 'care_products__count',
+        'Солнечные очки': 'sun_glasses__count',
         'Линзы': 'lenses__count'
     }
-
     def get_queryset(self):
         return super().get_queryset()
 
@@ -86,117 +88,7 @@ class Category(models.Model):
 
 #2 Product
 
-# 2.1 Glasses
 
-
-class Glasses_manufacturer(models.Model):
-    title = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Производитель'
-        verbose_name_plural = '(1.1) Производители'
-
-    def __str__(self):
-        return self.title
-
-
-class Glasses_frame_type(models.Model):
-    title = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Тип оправы'
-        verbose_name_plural = '(1.2) Типы оправ'
-
-    def __str__(self):
-        return self.title
-
-
-class Glasses_frame_material(models.Model):
-    title = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Материал оправы'
-        verbose_name_plural = '(1.3) Материалы оправ'
-
-    def __str__(self):
-        return self.title
-
-
-class Glasses_size(models.Model):
-    size = models.CharField(max_length=5)
-
-    class Meta:
-        verbose_name = 'Размер очков'
-        verbose_name_plural = '(1.4) Размеры очков'
-
-    def __str__(self):
-        return self.size
-
-
-class Glasses_gender(models.Model):
-    title = models.CharField(max_length=20)
-
-    class Meta:
-        verbose_name = 'Пол'
-        verbose_name_plural = '(1.5) Пол'
-
-    def __str__(self):
-        return self.title
-
-
-class Glasses_form(models.Model):
-    title = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Форма оправы'
-        verbose_name_plural = '(1.6) Форма оправ'
-
-    def __str__(self):
-        return self.title
-
-
-class Glasses_linces_sph(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Сфера (Sph)')
-
-    class Meta:
-        verbose_name = 'Сфера (Sph)'
-        verbose_name_plural = '(1.7.1) Сфера (Sph)'
-
-    def __str__(self):
-        return self.value
-
-
-class Glasses_linces_cyl(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Цилиндр (Cyl)')
-
-    class Meta:
-        verbose_name = 'Цилиндр (Cyl)'
-        verbose_name_plural = '(1.7.2) Цилиндр (Cyl)'
-
-    def __str__(self):
-        return self.value
-
-
-class Glasses_linces_ax(models.Model):
-    value = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Ось (Ax)')
-
-    class Meta:
-        verbose_name = 'Ось (Ax)'
-        verbose_name_plural = '(1.7.3) Ось (Ax)'
-
-    def __str__(self):
-        return self.value
-
-
-class Glasses_linces_pd(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='РМЦ (PD)')
-
-    class Meta:
-        verbose_name = 'РМЦ (PD)'
-        verbose_name_plural = '(1.7.4) РМЦ (PD)'
-
-    def __str__(self):
-        return self.value
 
 
 class Product(models.Model):
@@ -219,202 +111,33 @@ class Product(models.Model):
 
     def get_model_name(self):
         return self.__class__.__name__.lower()
-class Glasses(Product):
-    glasses_size = models.ForeignKey('Glasses_size', on_delete=models.CASCADE, verbose_name="Размер очков")
-    glasses_gender = models.ForeignKey('Glasses_gender', on_delete=models.CASCADE, verbose_name="Пол")
-    manufacturer = models.ForeignKey('Glasses_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
-    frame_material = models.ForeignKey('Glasses_frame_material', on_delete=models.CASCADE, verbose_name="Материал оправы")
-    frame_type = models.ForeignKey('Glasses_frame_type', on_delete=models.CASCADE, verbose_name="Тип оправы")
-    glasses_form = models.ForeignKey('Glasses_form', on_delete=models.CASCADE, verbose_name="Форма очков")
-    Lenses_height = models.IntegerField(verbose_name="Высота линзы")
-    Lenses_width = models.IntegerField(verbose_name="Ширина линзы")
-    Lenses_length = models.IntegerField(verbose_name="Длина линзы")
-    Lenses_bridge = models.IntegerField(verbose_name="Высота линзы")
 
-    class Meta:
-        verbose_name = '[1.0] Очки'
-        verbose_name_plural = '(1.0) Очки'
 
-    def __str__(self):
-        return "{} : {}".format(self.category, self.title)
 
-    def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
 
-# 2.2 Lenses
 
 
-class Lenses_manufacturer(models.Model):
-    title = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name = 'Производитель линз'
-        verbose_name_plural = '(2.1) Производители линз'
 
 
-    def __str__(self):
-        return self.title
 
 
-class Lenses_type(models.Model):
-    title = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name = 'Тип линз'
-        verbose_name_plural = '(2.2) Типы линз'
 
-    def __str__(self):
-        return self.title
-
-
-
-
-class Lenses_material(models.Model):
-    title = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Материал линз'
-        verbose_name_plural = '(2.3) Материалы линз'
-
-
-    def __str__(self):
-        return self.title
-
-
-class Lenses_Sph(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Сфера (Sph)')
-
-    class Meta:
-        verbose_name = 'Сфера линз'
-        verbose_name_plural = '(2.4.1) Сферы линз'
-
-
-    def __str__(self):
-        return self.value
-
-
-class Lenses_rad(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='Радиус (Вс)')
-
-    class Meta:
-        verbose_name = 'Радиус линз'
-        verbose_name_plural = '(2.4.2) Радиусы линз'
-
-
-    def __str__(self):
-        return self.value
-
-
-class Lenses(Product):
-    manufacturer = models.ForeignKey('Lenses_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
-    material = models.ForeignKey('Lenses_material', on_delete=models.CASCADE, verbose_name="Материал")
-    type = models.ForeignKey('Lenses_type', on_delete=models.CASCADE, verbose_name="Тип")
-    meaning = models.BooleanField(verbose_name="UVA/UVB защита", default=0)
-    moisture = models.IntegerField(verbose_name="Влагосодержание", validators=[MaxValueValidator(100)])
-    oxygen = models.IntegerField(verbose_name="Пропускание кислорода")
-    diameter = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Диаметр')
-    class Meta:
-        verbose_name = 'Линзы'
-        verbose_name_plural = '(2.0) Линзы'
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
-
-
-class Sun_Glasses(Product):
-    glasses_size = models.ForeignKey('Glasses_size', on_delete=models.CASCADE, verbose_name="Размер очков")
-    glasses_gender = models.ForeignKey('Glasses_gender', on_delete=models.CASCADE, verbose_name="Пол")
-    manufacturer = models.ForeignKey('Glasses_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
-    frame_material = models.ForeignKey('Glasses_frame_material', on_delete=models.CASCADE, verbose_name="Материал оправы")
-    frame_type = models.ForeignKey('Glasses_frame_type', on_delete=models.CASCADE, verbose_name="Тип оправы")
-    glasses_form = models.ForeignKey('Glasses_form', on_delete=models.CASCADE, verbose_name="Форма очков")
-    Lenses_height = models.IntegerField(verbose_name="Высота линзы")
-    Lenses_width = models.IntegerField(verbose_name="Ширина линзы")
-    Lenses_length = models.IntegerField(verbose_name="Длина линзы")
-    Lenses_bridge = models.IntegerField(verbose_name="Высота линзы")
-
-    class Meta:
-        verbose_name = '[3.0] Солнцезащитные очки'
-        verbose_name_plural = '(3.0) Солнцезащитные очки'
-
-    def __str__(self):
-        return "{} : {}".format(self.category, self.title)
-
-    def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
-
-
-
-class Other_manufacturer(models.Model):
-    title = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Производитель линз'
-        verbose_name_plural = '(2.1) Производители линз'
-
-
-    def __str__(self):
-        return self.title
-
-
-class Other_type(models.Model):
-    title = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Тип линз'
-        verbose_name_plural = '(2.2) Типы линз'
-
-    def __str__(self):
-        return self.title
-
-
-class Care_Products(Product):
-    manufacturer = models.ForeignKey('Other_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
-    type = models.ForeignKey('Other_type', on_delete=models.CASCADE, verbose_name="Тип")
-
-    class Meta:
-        verbose_name = '[4.0] Средство по уходу'
-        verbose_name_plural = '(4.0) Средства по уходу'
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
-
-
-
-class Accessories(Product):
-    manufacturer = models.ForeignKey('Other_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
-    type = models.ForeignKey('Other_type', on_delete=models.CASCADE, verbose_name="Тип")
-
-    class Meta:
-        verbose_name = '[5.0] Аксессуар'
-        verbose_name_plural = '(5.0) Аксессуары'
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
-
-class Stocks(Product):
-    new_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Новая цена')
-    manufacturer = models.ForeignKey('Other_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
-    type = models.ForeignKey('Other_type', on_delete=models.CASCADE, verbose_name="Тип")
-
-    class Meta:
-        verbose_name = '[6.0] Акция'
-        verbose_name_plural = '(6.0) Акции'
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
+# class Stocks(Product):
+#     new_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Новая цена')
+#     manufacturer = models.ForeignKey('Other_manufacturer', on_delete=models.CASCADE, verbose_name="Производитель")
+#     type = models.ForeignKey('Other_type', on_delete=models.CASCADE, verbose_name="Тип")
+#
+#     class Meta:
+#         verbose_name = '[6.0] Акция'
+#         verbose_name_plural = '(6.0) Акции'
+#
+#     def __str__(self):
+#         return self.title
+#
+#     def get_absolute_url(self):
+#         return get_product_url(self, 'product_detail')
 
 #3 CartProduct
 
@@ -429,7 +152,7 @@ class CartProduct(models.Model):
     glist = models.TextField(verbose_name="Параметры", default='')
     class Meta:
         verbose_name = 'Продукт в корзине'
-        verbose_name_plural = '(7.2) Продукты в корзине'
+        verbose_name_plural = 'Продукты в корзине'
 
     def __str__(self):
         return "Продукт: {} (для корзины)".format(self.content_object.title)
@@ -451,7 +174,7 @@ class Cart(models.Model):
 
     class Meta:
         verbose_name = 'Корзина'
-        verbose_name_plural = '(7.1) Корзины'
+        verbose_name_plural = 'Корзины'
 
     def __str__(self):
         return str(self.id)
@@ -469,7 +192,7 @@ class LikeProduct(models.Model):
 
     class Meta:
         verbose_name = 'Понравившийся продукт'
-        verbose_name_plural = '(7.3) Понравившиеся продукты'
+        verbose_name_plural = 'Понравившиеся продукты'
 
     def __str__(self):
         return "Продукт: {} (Понравившееся)".format(self.product.title)
@@ -488,7 +211,7 @@ class Like(models.Model):
 
     class Meta:
         verbose_name = 'Понравившееся'
-        verbose_name_plural = '(7.4) Понравившееся'
+        verbose_name_plural = 'Понравившееся'
 
 
     def __str__(self):

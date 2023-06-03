@@ -2,14 +2,19 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import View
 
 from .models import *
-
-
-
+from product_glasses.models import *
+from product_lenses.models import *
+from product_accessories.models import *
+from product_care_products.models import *
+from product_sun_glasses.models import *
 
 class CategoryDetailMixin(SingleObjectMixin):
 
     CATEGORY_SLUG2PRODUCT_MODEL = {
         'glasses': Glasses,
+        'accessories': Accessories,
+        'care_products': Care_Products,
+        'sun_glasses': Sun_Glasses,
         'lenses': Lenses
     }
 
@@ -33,9 +38,9 @@ class CartMixin(View):
             if not customer:
                 customer = Customer.objects.create(
                     user=request.user,
-                    phone=request.user.phone,
+                    # phone=request.user.phone,
                 )
-                cart = Cart.objects.create(id=customer.pk*5, owner=customer)
+                cart = Cart.objects.create(id=customer.pk+1, owner=customer)
             cart = Cart.objects.filter(owner=customer, in_order=False).first()
             if not cart:
                 cart = Cart.objects.create(owner=customer)

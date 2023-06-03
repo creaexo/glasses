@@ -1,19 +1,20 @@
 var numCount = document.getElementById('num_count');
 var plusBtn = document.getElementById('button_plus');
 var minusBtn = document.getElementById('button_minus');
-plusBtn.onclick = function() {
-  var qty = parseInt(numCount.value);
-  qty = qty + 1;
-  numCount.value = qty;
-}
-minusBtn.onclick = function() {
-  var qty = parseInt(numCount.value);
-      if (qty>1){
-  qty = qty - 1;
-  numCount.value = qty;
+if(plusBtn != null && minusBtn != null ) {
+  plusBtn.onclick = function () {
+    var qty = parseInt(numCount.value);
+    qty = qty + 1;
+    numCount.value = qty;
+  }
+  minusBtn.onclick = function () {
+    var qty = parseInt(numCount.value);
+    if (qty > 1) {
+      qty = qty - 1;
+      numCount.value = qty;
+    }
   }
 }
-
 
 $(document).ready(function() {
   $(".quiz1").hide();

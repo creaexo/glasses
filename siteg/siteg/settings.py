@@ -32,7 +32,10 @@ ADMIN_REORDER = (
     {'galsses': 'myapp', 'label': 'Group1',
      'models': ('galsses.Glasses_size',
                 'galsses.Model_4',)
-    },)
+    },
+    {'siteg.product_glasses': 'myapp', 'label': 'Group1',
+     },
+)
 
 # Application definition
 
@@ -44,6 +47,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'glasses.apps.GlassesConfig',
+    'product_accessories.apps.ProductAccessoriesConfig',
+    'product_care_products.apps.ProductCareProductsConfig',
+    'product_glasses.apps.ProductGlassesConfig',
+    'product_lenses.apps.ProductLensesConfig',
+    'product_stock.apps.ProductStockConfig',
+    'product_sun_glasses.apps.ProductSunGlassesConfig',
     'crispy_forms'
 ]
 

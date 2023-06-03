@@ -13,8 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&&display=swap" rel="stylesheet">
-    <script defer src="{% static 'glasses/scripts/js.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="shortcut icon" href="{% static '/glasses/img/Union.svg' %}" type="image/x-icon">
 </head>
 
 
@@ -27,8 +26,8 @@
                     <nav>
                         <a href="#">О магазине</a>
                         <a href="#">Доставка и оплата</a>
-                        <a href="#">Гарантия</a>
                         <a href="#">Отзывы</a>
+                        <a href="#">Клиентам</a>
                     </nav>
                     <div class="silo">
                         {% if request.user.is_authenticated %}
@@ -42,7 +41,7 @@
                     </div>
                 </div>
                 <div class="hdown">
-                    <form action="" method="get">
+                    <form action="{% url 'index' %}" method="get">
                         <input name="s" placeholder="ПОИСК ПО САЙТУ" type="search">
                         <button type="submit" ><img src="{% static 'glasses/img/lupa.svg' %}" alt="" class="lupaa"></button>
                     </form>
@@ -64,7 +63,7 @@
 
                             <img src="{% static '/glasses/img/korz.svg' %}" alt="" class="korz">
                             <img src="{% static '/glasses/img/greenkorz.svg' %}" alt="" class="greenkorz">
-                            <p>Корзина [{{ cart.products.count }}]</p>
+                            <p class="cart">Корзина<div class="cart_quantity">{{ cart.products.count }}</div></p>
                         </a>
                     </div>
                 </div>
@@ -73,20 +72,25 @@
     </header>
     <section class="centerr">
         <nav class="things">
-            <a href="{% url 'category_detail' slug='lenses' %}">контактные линзы</a>
-            <a href="{% url 'category_detail' slug='glasses' %}">очки и оправы</a>
-            <a href="{% url 'category_detail' slug='sun_glasses' %}">солнцезащитные очки</a>
-            <a href="{% url 'category_detail' slug='care_products' %}">средства по уходу</a>
-            <a href="{% url 'category_detail' slug='accessories' %}">аксессуары</a>
-            <a href="{% url 'category_detail' slug='stock' %}">акции</a>
+            <a href="{% url 'category_detail' slug='lenses' %}" class="dropbtn hover_cat">Контактные линзы</a>
+            <a href="{% url 'category_detail' slug='glasses' %}" class="hover_cat">Оправы</a>
+            <a href="{% url 'category_detail' slug='sun_glasses' %}" class="hover_cat">Солнцезащитные очки</a>
+            <a href="{% url 'category_detail' slug='care_products' %}" class="hover_cat">Средства по уходу</a>
+            <a href="{% url 'category_detail' slug='accessories' %}" class="hover_cat">Аксессуары</a>
+
+            <a href="{% url 'category_detail' slug='stock' %}" class="hover_cat">Акции</a>
         </nav>
     </section>
 
 
 {% block content %}
     <section class="bg">
-        <h1>Начни наслаждаться красотой этого мира<br>
+
+        <div class="bgi">
+<h1>Начни наслаждаться красотой этого мира<br>
             вместе с нами</h1>
+        </div>
+
     </section>
     <section class="showcase">
         <div class="center1">
@@ -219,6 +223,8 @@
     </section>
 {% endblock content %}
 
+    <script defer src="{% static 'glasses/scripts/js.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <footer>
         <div class="niz">
             <div class="center_start">
