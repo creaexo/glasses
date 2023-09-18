@@ -1,0 +1,53 @@
+{% extends 'glasses/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+    <div class="uu fdwn" id="form_cart">
+        {% if messages %}
+
+{% endif %}
+        <section class="up">
+
+            <div class="basket_lup basket_up">
+                <h1 class="red_color">Избранное</h1>
+            </div>
+        </section>
+
+        <ul class="basket_list">
+
+            {% for item in like.products.all %}
+            <label for="{{ item.content_object.slug }}" class="basket_product card1 {{ item.content_object.slug }}" >
+                <input type="checkbox" id="{{ item.content_object.slug }}" class="check" form="order" name="{{ item.content_object.slug }}" value="{{ item.qty }}">
+                <span class="square gre"></span>
+                <a href="{% url 'delete_from_favorites' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" class="greq">
+                    <img src="{% static '/glasses/img/del.svg' %}" alt="" class="im26">
+                </a>
+                <span class="card ccard">
+                    <div class="imgbox2 cimgbox2">
+                        {% if item.content_object.image1 != None  %}
+                        <img src="{{ item.content_object.image1.url }}" alt="">
+                        {% else %}
+                        <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
+                        {% endif %}
+                    </div>
+
+                    <h3>{{ item.content_object.title }}</h3>
+
+
+                    <div class="down_card3">
+                        <p>{{ item.content_object.price }}₽</p>
+                        <a href="" class="wh64">
+                            <form action="{% url 'add_to_cart' ct_model=item.content_object.category.slug slug=item.content_object.slug %}" method="get">
+<!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
+                                <div class="basketl"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                            </form>
+                        </a>
+                    </div>
+                </span>
+            </label>
+            {% endfor %}
+
+        </ul>
+    </div>
+{% endblock content %}

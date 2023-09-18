@@ -10,9 +10,14 @@
                 </section>
                             <form action="" method="POST" class="person">
                     {% csrf_token %}
+                                <div class="login_errors">
+                                    {{form.errors}}
+                                </div>
+
                 <section class="personal_data md fend">
+
                     {% for f in form %}
-                        <label for="{{ f.id_for_label }}"">{{f.label}}
+                        <label for="{{ f.id_for_label }}">{{f.label}}{{f.errors}}
                     {{ f }}
                         </label>
                     {% endfor %}
@@ -21,6 +26,7 @@
                         <a href="#" class="have">У меня нет аккаунта</a>
                     </div>
                 </section>
+
                 </form>
             </div>
         </div>

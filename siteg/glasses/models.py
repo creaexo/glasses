@@ -104,25 +104,13 @@ class Product(models.Model):
     image3 = models.ImageField(verbose_name='Изображение 3', blank=True)
     image4 = models.ImageField(verbose_name='Изображение 4', blank=True)
     description = models.TextField(verbose_name='Описание', blank=True)
-    price = models.DecimalField(max_digits=9, decimal_places=1, verbose_name='Цена')
+    price = models.IntegerField(verbose_name='Цена')
 
     def __str__(self):
         return self.title
 
     def get_model_name(self):
         return self.__class__.__name__.lower()
-
-
-
-
-
-
-
-
-
-
-
-
 
 # class Stocks(Product):
 #     new_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Новая цена')
@@ -144,12 +132,13 @@ class Product(models.Model):
 class CartProduct(models.Model):
     user = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name="Покупатель")
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, verbose_name="Корзина", related_name='related_products')
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name='Пренадлежность к категориям')
+    object_id = models.PositiveIntegerField(verbose_name='ID товара')
     content_object = GenericForeignKey('content_type', 'object_id')
-    qty = models.PositiveIntegerField(default=1)
+    qty = models.PositiveIntegerField(default=1, verbose_name='Количество единиц товара')
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
     glist = models.TextField(verbose_name="Параметры", default='')
+    in_order = models.BooleanField(verbose_name="В заказе", default=False)
     class Meta:
         verbose_name = 'Продукт в корзине'
         verbose_name_plural = 'Продукты в корзине'
@@ -161,16 +150,40 @@ class CartProduct(models.Model):
         self.final_price = self.qty * self.content_object.price
         super().save(*args, **kwargs)
 
+
+# class CartProduct(models.Model):
+#     user = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name="Покупатель")
+#     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, verbose_name="Корзина", related_name='related_products')
+#     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+#     object_id = models.PositiveIntegerField()
+#     content_object = GenericForeignKey('content_type', 'object_id')
+#     qty = models.PositiveIntegerField(default=1)
+#     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
+#     glist = models.TextField(verbose_name="Параметры", default='')
+#     in_order = models.BooleanField(verbose_name="В заказе", default=False)
+#     class Meta:
+#         verbose_name = 'Продукт в корзине'
+#         verbose_name_plural = 'Продукты в корзине'
+#
+#     def __str__(self):
+#         return "Продукт: {} (для корзины)".format(self.content_object.title)
+#
+#     def save(self, *args, **kwargs):
+#         self.final_price = self.qty * self.content_object.price
+#         super().save(*args, **kwargs)
+
+
+
 #4 Cart
 
 class Cart(models.Model):
 
     owner = models.ForeignKey('Customer', null=True, verbose_name='Владелец', on_delete=models.CASCADE)
-    products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
-    total_products = models.PositiveIntegerField(default=0)
+    products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart', verbose_name='Продукты')
+    total_products = models.PositiveIntegerField(default=0, verbose_name='Количество продуктов')
     final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2, verbose_name='Общая цена')
-    in_order = models.BooleanField(default=False)
-    for_anonymous_user = models.BooleanField(default=False)
+    in_order = models.BooleanField(default=False, verbose_name='Заказан')
+    for_anonymous_user = models.BooleanField(default=False, verbose_name='От анонимного покупателя')
 
     class Meta:
         verbose_name = 'Корзина'
@@ -178,6 +191,25 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+# class ProductInOrder(models.Model):
+#     cart_product = models.ForeignKey('CartProduct', on_delete=models.CASCADE, verbose_name="Продукт в корзине", related_name='related_cart')
+# class CartForOrder(models.Model):
+#
+#     owner = models.ForeignKey('Customer', null=True, verbose_name='Владелец', on_delete=models.CASCADE)
+#     products = models.ManyToManyField(ProductInOrder, blank=True, related_name='cart_product')
+#     total_products = models.PositiveIntegerField(default=0)
+#     final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2, verbose_name='Общая цена')
+#     in_order = models.BooleanField(default=False)
+#     for_anonymous_user = models.BooleanField(default=False)
+#
+#     class Meta:
+#         verbose_name = 'Корзина'
+#         verbose_name_plural = 'Корзины'
+#
+#     def __str__(self):
+#         return str(self.id)
 
 
 
@@ -231,7 +263,7 @@ class Customer(models.Model):
     USERNAME_FIELD = "username"
     class Meta:
         verbose_name = 'Пользователь'
-        verbose_name_plural = '(7.0) Пользователи'
+        verbose_name_plural = 'Пользователи'
 
 
     def __str__(self):
@@ -265,6 +297,7 @@ class Order(models.Model):
     phone = models.CharField(max_length=20, verbose_name='Телефон')
     cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True)
     address = models.CharField(max_length=1024, verbose_name='Адрес', null=True, blank=True)
+    # final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2, verbose_name='Общая цена')
     status = models.CharField(
         max_length=100,
         verbose_name='Статус заказ',
@@ -278,6 +311,7 @@ class Order(models.Model):
         default=BUYING_TYPE_SELF
     )
     comment = models.TextField(verbose_name='Комментарий к заказу', null=True, blank=True)
+    products_information = models.TextField(verbose_name='Информация о товарах', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
     order_date = models.DateField(verbose_name='Дата получения заказа', default=timezone.now)
 

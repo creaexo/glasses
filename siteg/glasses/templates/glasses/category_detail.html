@@ -7,7 +7,13 @@
         <section class="up">
             <div class="category_title">
                 <a href="#">{{ category.name }}</a>
-                <a href="#">Сортировать по: Возрастанию цены</a>
+                <a class="sort_p">Сортировать по:</a>
+                <select form="{{category.slug}}" name="criteria_sort_by" id="criteria_sort_by">
+                    <option value="title" {% if select_sort == 'title' %} selected="selected" {% endif %}>Алфавиту А-Я</option>
+                    <option value="-title" {% if select_sort == '-title' %} selected="selected" {% endif %}>Алфавиту Я-А</option>
+                    <option value="price" {% if select_sort == 'price' %} selected="selected" {% endif %}>Возрастанию цены</option>
+                    <option value="-price" {% if select_sort == '-price' %} selected="selected" {% endif %}>Убыванию цены</option>
+                </select>
             </div>
         </section>
         <div class="middle ais">
@@ -25,16 +31,21 @@
                         {% endif %}
                             </div>
                         </a>
-                        <a href="{{ product.get_absolute_url }}"><h3>{{ product.title }}</h3></a>
+                        <a href="{{ product.get_absolute_url }}"><h3>{{ product.title|truncatechars:15 }}</h3></a>
                         <div class="down_card2">
                             <p>{{ product.price }}₽</p>
                             <div class="fl2">
-                                <!--
-                                <a href="#">
-                                    <div class="basket"></div>
-                                </a> -->
-                                <a href="#">
-                                    <div class="heart"></div>
+                                <a href="" class="wh32 bl">
+                                    <form action="{% url 'add_to_cart' ct_model=product.category.slug slug=product.slug %}" method="get">
+<!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
+                                    <div class="basket"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                                </form>
+                                </a>
+                                <a href="" class="wh32">
+                                <form action="{% url 'add_to_favourites' ct_model=product.category.slug slug=product.slug %}" method="get">
+<!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
+                                    <div class="heart"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                                </form>
                                 </a>
                             </div>
                         </div>
@@ -44,93 +55,277 @@
 
                 {% endfor %}
             </ul>
-            <form action="" method="get" class="criteria_form">
+{% if category.slug == 'lenses' %}
+            <form action="" method="get" class="criteria_form" id="{{category.slug}}">
 
                 <h3>Категория</h3>
-                <div class="criteria_list">
-                    <label for="category" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_category" id="category" value="0">
+                <div class="criteria_list ">
+                    <label for="category" class="radio_text link-ease-in-out">
+                        <input type="radio" class="criteria" name="criteria_category" id="category" value="0" {% if criteria_category == 0 %} checked="checked" {% endif %}>
                         <span class="criteria_text">Не выбрано</span>
                     </label>
-                    <label for="category1" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_category" id="category1" value="1">
-                        <span class="criteria_text">Однодневные</span>
-                    </label>
-                    <label for="category2" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_category" id="category2" value="2">
-                        <span class="criteria_text">2 недели</span>
-                    </label>
-                    <label for="category3" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_category" id="category3" value="3">
-                        <span class="criteria_text">1 месяц</span>
-                    </label>
-                    <label for="category4" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_category" id="category4" value="4">
-                        <span class="criteria_text">3 месяца</span>
-                    </label>
-                </div>
 
+                    {% for lc in lenses_category %}
+                    <label for="category{{ lc.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category{{ lc.id }}" value="{{ lc.id }}" {% if criteria_category == lc.id  %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lc }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
                 <h3>Тип</h3>
                 <div class="criteria_list">
+
                     <label for="type" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_type" id="type" value="0">
+                        <input type="radio" class="criteria" name="criteria_type" id="type" value="0" {% if criteria_type == 0 %} checked="checked" {% endif %}>
                         <span class="criteria_text">Не выбрано</span>
                     </label>
-                    <label for="type1" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_type" id="type1" value="1">
-                        <span class="criteria_text">Астигматические</span>
+                    {% for lt in lenses_type %}
+                    <label for="type{{ lt.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type{{ lt.id }}" value="{{ lt.id }}" {% if lt.id == criteria_type %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lt }}</span>
                     </label>
-                    <label for="type2" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_type" id="type2" value="2">
-                        <span class="criteria_text">Мультифокальные</span>
-                    </label>
-                    <label for="type3" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_type" id="type3" value="3">
-                        <span class="criteria_text">Сферические</span>
-                    </label>
-                    <label for="type4" class="radio_text">
-                        <input type="radio" class="criteria" name="criteria_type" id="type4" value="4">
-                        <span class="criteria_text">Цветные</span>
-                    </label>
+                    {% endfor %}
                 </div>
 
                 <h3>Цена</h3>
                 <div class="criteria_list">
                     <label for="price" class="radio_text">
-                        <input type="number" class="criteria_price" name="criteria_price" id="price" placeholder="От">
+                        <input type="number" class="criteria_price" name="criteria_price_min" id="price" placeholder="От" value="{{min_price}}">
                     </label>
                     <label for="price1" class="radio_text">
-                        <input type="number" class="criteria_price" name="criteria_price" id="price1" placeholder="До">
+                        <input type="number" class="criteria_price" name="criteria_price_max" id="price1" placeholder="До" value="{{max_price}}">
                     </label>
                 </div>
 
                 <h3>Производитель</h3>
                 <div class="criteria_list">
-                    <label for="manufacturer1" class="checkbox_text">
-                        <input type="checkbox" class="criteria" name="criteria_manufacturer1" id="manufacturer1" value="0">
+                    {% for lm in lenses_manufacturer %}
+                    <label for="manufacturer{{ lm.id }}" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer_{{ lm.id }}" id="manufacturer{{ lm.id }}" value="1" {% if lm.id in selected_manuf %} checked {% endif %}>
                         <span class="square"></span>
-                        <span class="criteria_text">Adria</span>
+                        <span class="criteria_text">{{ lm }}</span>
                     </label>
-                    <label for="manufacturer2" class="checkbox_text">
-                        <input type="checkbox" class="criteria" name="criteria_manufacturer2" id="manufacturer2" value="0">
-                        <span class="square"></span>
-                        <span class="criteria_text">Alcon</span>
-                    </label>
-                    <label for="manufacturer3" class="checkbox_text">
-                        <input type="checkbox" class="criteria" name="criteria_manufacturer3" id="manufacturer3" value="0">
-                        <span class="square"></span>
-                        <span class="criteria_text">Bausch & Lomb</span>
-                    </label>
-                    <label for="manufacturer4" class="checkbox_text">
-                        <input type="checkbox" class="criteria" name="criteria_manufacturer4" id="manufacturer4" value="0">
-                        <span class="square"></span>
-                        <span class="criteria_text">CooperVision</span>
-                    </label>
+                    {% endfor %}
                 </div>
                 <input type="submit" value="Применить">
             </form>
-            
+{% endif %}
+
+{% if category.slug == 'glasses' %}
+            <form action="" method="get" class="criteria_form" id="{{category.slug}}">
+
+                <h3>Тип оправы</h3>
+                <div class="criteria_list ">
+                    <label for="category" class="radio_text link-ease-in-out">
+                        <input type="radio" class="criteria" name="criteria_category" id="category" value="0" {% if criteria_category == 0 %} checked="checked" {% endif %}>
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+
+                    {% for lc in galasses_frame_type %}
+                    <label for="category{{ lc.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category{{ lc.id }}" value="{{ lc.id }}" {% if criteria_category == lc.id  %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lc }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <h3>Форма</h3>
+                <div class="criteria_list">
+
+                    <label for="type" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type" value="0" {% if criteria_type == 0 %} checked="checked" {% endif %}>
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+                    {% for lt in galasses_form %}
+                    <label for="type{{ lt.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type{{ lt.id }}" value="{{ lt.id }}" {% if lt.id == criteria_type %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lt }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <h3>Цена</h3>
+                <div class="criteria_list">
+                    <label for="price" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_min" id="price" placeholder="От" value="{{min_price}}">
+                    </label>
+                    <label for="price1" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_max" id="price1" placeholder="До" value="{{max_price}}">
+                    </label>
+                </div>
+
+                <h3>Производитель</h3>
+                <div class="criteria_list">
+                    {% for lm in galasses_manufacturer %}
+                    <label for="manufacturer{{ lm.id }}" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer_{{ lm.id }}" id="manufacturer{{ lm.id }}" value="1" {% if lm.id in selected_manuf %} checked {% endif %}>
+                        <span class="square"></span>
+                        <span class="criteria_text">{{ lm }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <input type="submit" value="Применить">
+            </form>
+{% endif %}
+
+{% if category.slug == 'sun_glasses' %}
+            <form action="" method="get" class="criteria_form" id="{{category.slug}}">
+
+                <h3>Тип оправы</h3>
+                <div class="criteria_list ">
+                    <label for="category" class="radio_text link-ease-in-out">
+                        <input type="radio" class="criteria" name="criteria_category" id="category" value="0" {% if criteria_category == 0 %} checked="checked" {% endif %}>
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+
+                    {% for lc in sun_galasses_frame_type %}
+                    <label for="category{{ lc.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_category" id="category{{ lc.id }}" value="{{ lc.id }}" {% if criteria_category == lc.id  %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lc }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <h3>Форма</h3>
+                <div class="criteria_list">
+
+                    <label for="type" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type" value="0" {% if criteria_type == 0 %} checked="checked" {% endif %}>
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+                    {% for lt in sun_galasses_form %}
+                    <label for="type{{ lt.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type{{ lt.id }}" value="{{ lt.id }}" {% if lt.id == criteria_type %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lt }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <h3>Цена</h3>
+                <div class="criteria_list">
+                    <label for="price" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_min" id="price" placeholder="От" value="{{min_price}}">
+                    </label>
+                    <label for="price1" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_max" id="price1" placeholder="До" value="{{max_price}}">
+                    </label>
+                </div>
+
+                <h3>Производитель</h3>
+                <div class="criteria_list">
+                    {% for lm in sun_galasses_manufacturer %}
+                    <label for="manufacturer{{ lm.id }}" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer_{{ lm.id }}" id="manufacturer{{ lm.id }}" value="1" {% if lm.id in selected_manuf %} checked {% endif %}>
+                        <span class="square"></span>
+                        <span class="criteria_text">{{ lm }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <input type="submit" value="Применить">
+            </form>
+{% endif %}
+{% if category.slug == 'care_products' %}
+            <form action="" method="get" class="criteria_form" id="{{category.slug}}">
+
+
+                <h3>Тип</h3>
+                <div class="criteria_list">
+
+                    <label for="type" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type" value="0" {% if criteria_type == 0 %} checked="checked" {% endif %}>
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+                    {% for lt in care_products_type %}
+                    <label for="type{{ lt.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type{{ lt.id }}" value="{{ lt.id }}" {% if lt.id == criteria_type %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lt }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <h3>Цена</h3>
+                <div class="criteria_list">
+                    <label for="price" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_min" id="price" placeholder="От" value="{{min_price}}">
+                    </label>
+                    <label for="price1" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_max" id="price1" placeholder="До" value="{{max_price}}">
+                    </label>
+                </div>
+
+                <h3>Производитель</h3>
+                <div class="criteria_list">
+                    {% for lm in care_products_manufacturer %}
+                    <label for="manufacturer{{ lm.id }}" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer_{{ lm.id }}" id="manufacturer{{ lm.id }}" value="1" {% if lm.id in selected_manuf %} checked {% endif %}>
+                        <span class="square"></span>
+                        <span class="criteria_text">{{ lm }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <input type="submit" value="Применить">
+            </form>
+{% endif %}
+
+{% if category.slug == 'accessories' %}
+            <form action="" method="get" class="criteria_form" id="{{category.slug}}">
+                <h3>Форма</h3>
+                <div class="criteria_list">
+
+                    <label for="type" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type" value="0" {% if criteria_type == 0 %} checked="checked" {% endif %}>
+                        <span class="criteria_text">Не выбрано</span>
+                    </label>
+                    {% for lt in accessories_type %}
+                    <label for="type{{ lt.id }}" class="radio_text">
+                        <input type="radio" class="criteria" name="criteria_type" id="type{{ lt.id }}" value="{{ lt.id }}" {% if lt.id == criteria_type %} checked="checked" {% endif %}>
+                        <span class="criteria_text">{{ lt }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <h3>Цена</h3>
+                <div class="criteria_list">
+                    <label for="price" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_min" id="price" placeholder="От" value="{{min_price}}">
+                    </label>
+                    <label for="price1" class="radio_text">
+                        <input type="number" class="criteria_price" name="criteria_price_max" id="price1" placeholder="До" value="{{max_price}}">
+                    </label>
+                </div>
+
+                <h3>Производитель</h3>
+                <div class="criteria_list">
+                    {% for lm in accessories_manufacturer %}
+                    <label for="manufacturer{{ lm.id }}" class="checkbox_text">
+                        <input type="checkbox" class="criteria" name="criteria_manufacturer_{{ lm.id }}" id="manufacturer{{ lm.id }}" value="1" {% if lm.id in selected_manuf %} checked {% endif %}>
+                        <span class="square"></span>
+                        <span class="criteria_text">{{ lm }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <input type="submit" value="Применить">
+            </form>
+{% endif %}
+
         </div>
+<!--            <div class="paginate">-->
+
+<!--            </div>            -->
+            <div class="paginate">
+                {% if last_page != 0%}
+                                {% if page != 1 %}
+                <button type="submit" name="criteria_page" form="{{category.slug}}" value="1"><<</button>
+                <button type="submit" name="criteria_page" form="{{category.slug}}" value="{{ page|add:-1 }}">{{ page|add:-1 }}</button>
+                {% endif %}
+                {% if page != 1 or page != last_page %}
+                <p >{{ page }}</p>
+                {% endif %}
+                {% if page != last_page %}
+                <button type="submit" name="criteria_page" form="{{category.slug}}" value="{{ page|add:1 }}">{{ page|add:1 }}</button>
+                <button type="submit" name="criteria_page" form="{{category.slug}}" value="{{ last_page }}">>></button>
+                {% endif %}
+                 {% endif %}
+
+            </div>
     </div>
 
 {% endblock content %}

@@ -9,7 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'glasses/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'glasses/css/alerts.css' %}">
         <link rel="stylesheet" href="{% static 'glasses/css/slider.css' %}">
+        <link rel="stylesheet" href="{% static 'glasses/css/main_slider.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&&display=swap" rel="stylesheet">
@@ -24,15 +26,15 @@
             <div class="con">
                 <div class="hup">
                     <nav>
-                        <a href="#">О магазине</a>
-                        <a href="#">Доставка и оплата</a>
-                        <a href="#">Отзывы</a>
-                        <a href="#">Клиентам</a>
+                        <a href="{% url 'none' %}">О магазине</a>
+                        <a href="{% url 'none' %}">Доставка и оплата</a>
+                        <a href="{% url 'none' %}">Отзывы</a>
+                        <a href="{% url 'none' %}">Клиентам</a>
                     </nav>
                     <div class="silo">
                         {% if request.user.is_authenticated %}
                         <a href="{% url 'logout' %}" class="vhod">Выйти</a>
-                            <a href="{% url 'login' %}" class="vhod">{{user.username}}</a>
+                            <a class="vhod">{{user.username}}</a>
 
                         {% else %}
                             <a href="{% url 'login' %}" class="vhod">Вход</a>
@@ -41,7 +43,7 @@
                     </div>
                 </div>
                 <div class="hdown">
-                    <form action="{% url 'index' %}" method="get">
+                    <form action="{% url 'search' %}" method="get">
                         <input name="s" placeholder="ПОИСК ПО САЙТУ" type="search">
                         <button type="submit" ><img src="{% static 'glasses/img/lupa.svg' %}" alt="" class="lupaa"></button>
                     </form>
@@ -54,10 +56,10 @@
                             <img src="{% static '/glasses/img/mail.svg' %}" alt="">
                             <p>cntrl-optic@mail.ru</p>
                         </div>
-                        <a href="like" class="img_txt hearth2">
+                        <a href="{% url 'favorites' %}" class="img_txt hearth2">
                             <img src="{% static '/glasses/img/heart.svg' %}" alt="" class="hearth">
                             <img src="{% static '/glasses/img/heart2.svg' %}" alt="" class="red_hearth">
-                            <p>Избранное</p>
+                            <p>Избранное<div class="favorite_quantity">{{ like.products.count }}</div></p>
                         </a>
                         <a href="{% url 'cart' %}" class="img_txt korz2">
 
@@ -70,6 +72,7 @@
             </div>
         </div>
     </header>
+
     <section class="centerr">
         <nav class="things">
             <a href="{% url 'category_detail' slug='lenses' %}" class="dropbtn hover_cat">Контактные линзы</a>
@@ -78,10 +81,28 @@
             <a href="{% url 'category_detail' slug='care_products' %}" class="hover_cat">Средства по уходу</a>
             <a href="{% url 'category_detail' slug='accessories' %}" class="hover_cat">Аксессуары</a>
 
-            <a href="{% url 'category_detail' slug='stock' %}" class="hover_cat">Акции</a>
+            <a href="{% url 'none' %}" class="hover_cat">Акции</a>
         </nav>
     </section>
+        {% if messages %}
+    {% for message in messages %}
+        <div class="toast active">
 
+  <div class="toast-content">
+    <i class="fas fa-solid fa-check check"></i>
+
+    <div class="message">
+      <span class="text text-1">Уведомление</span>
+      <span class="text text-2">{{ message }}</span>
+    </div>
+  </div>
+  <i class="fa-solid fa-xmark close">X</i>
+
+  <!-- Remove 'active' class, this is just to show in Codepen thumbnail -->
+  <div class="progress active"></div>
+</div>
+    {% endfor %}
+{% endif %}
 
 {% block content %}
     <section class="bg">
@@ -101,44 +122,42 @@
         </div>
         <div class="center1">
             <div class="list">
-                {% for product in products_a %}
-                <!-- карточка товара-->
-                <a href="{{ product.get_absolute_url }}">
-                <div class="card1" >
-                    <div class="card">
+                <section id="main_slider_bl" class="slider_bg_blur">
+                    <div class="wrapper">
+                        <input checked type=radio name="slider" id="slide1" />
+                        <input type=radio name="slider" id="slide2" />
+                        <div class="slider-wrapper">
+                            <div class=inner>
+                                <article>
 
-                            <div class="imgbox1">
-                                {% if product.image1.url != None %}
-                                <img src="{{ product.image1.url }}" alt="">
-                                {% else %}
-                                <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
-                                {% endif %}
-                            </div>
+                                            <img src="{% static '/glasses/img/free_consultation.png' %}" alt="">
 
-                        <h3>{{ product.title }}</h3>
-                        <div class="down_card2">
-                            <p>{{ product.price }}₽</p>
-                            <div class="fl2">
-                                <a href="###"><div class="basket"></div></a>
-                                <a href="####">
-                                    <div class="heart"></div>
-                                </a>
+                                </article>
+                                <article>
+
+                                            <img src="{% static '/glasses/img/discount20.png' %}" alt="">
+
+                                </article>
                             </div>
                         </div>
+                        <div class="slider-prev-next-control">
+                            <label for=slide1></label>
+                            <label for=slide2></label>
+                        </div>
+                        <div class="slider-dot-control">
+                            <label for=slide1></label>
+                            <label for=slide2></label>
+                        </div>
                     </div>
-                </div>
-                </a>
-                <!-- карточка товара-->
-                {% endfor %}
+                </section>
             </div>
         </div>
     </section>
-
     <section class="showcase">
         <div class="center1">
             <div class="tc2">
-                <h2 class="acol">Очки для зрения</h2>
-                <a href="#">Смотреть все></a>
+                <h2 class="acol">Оправы</h2>
+                <a href="{% url 'category_detail' slug='glasses' %}">Смотреть все></a>
             </div>
         </div>
         <div class="center1">
@@ -146,7 +165,7 @@
                 {% for product in products_g %}
                 <!-- карточка товара-->
                 <a href="{{ product.get_absolute_url }}">
-                <div class="card1" >
+                <div class="card3" >
                     <div class="card">
 
                             <div class="imgbox1">
@@ -157,13 +176,21 @@
                                 {% endif %}
                             </div>
 
-                        <h3>{{ product.title }}</h3>
+                        <h3>{{ product.title|truncatechars:15 }}</h3>
                         <div class="down_card2">
                             <p>{{ product.price }}₽</p>
                             <div class="fl2">
-                                <a href="###"><div class="basket"></div></a>
-                                <a href="####">
-                                    <div class="heart"></div>
+                                <a href="" class="wh32 bl">
+                                    <form action="{% url 'add_to_cart' ct_model=product.category.slug slug=product.slug %}" method="get">
+<!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
+                                    <div class="basket"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                                </form>
+                                </a>
+                                <a href="" class="wh32">
+                                <form action="{% url 'add_to_favourites' ct_model=product.category.slug slug=product.slug %}" method="get">
+<!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
+                                    <div class="heart"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                                </form>
                                 </a>
                             </div>
                         </div>
@@ -182,7 +209,7 @@
         <div class="center1">
             <div class="tc2">
                 <h2 class="acol">Контактные линзы</h2>
-                <a href="#">Смотреть все></a>
+                <a href="{% url 'category_detail' slug='lenses' %}">Смотреть все></a>
             </div>
         </div>
         <div class="center1">
@@ -190,7 +217,7 @@
                 {% for product in products_l %}
                 <!-- карточка товара-->
                 <a href="{{ product.get_absolute_url }}">
-                <div class="card1" >
+                <div class="card3" >
                     <div class="card">
 
                             <div class="imgbox1">
@@ -201,13 +228,21 @@
                                 {% endif %}
                             </div>
 
-                        <h3>{{ product.title }}</h3>
+                        <h3>{{ product.title|truncatechars:15 }}</h3>
                         <div class="down_card2">
                             <p>{{ product.price }}₽</p>
                             <div class="fl2">
-                                <a href="###"><div class="basket"></div></a>
-                                <a href="####">
-                                    <div class="heart"></div>
+                                <a href="" class="wh32 bl">
+                                    <form action="{% url 'add_to_cart' ct_model=product.category.slug slug=product.slug %}" method="get">
+<!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
+                                    <div class="basket"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                                </form>
+                                </a>
+                                <a href="" class="wh32">
+                                <form action="{% url 'add_to_favourites' ct_model=product.category.slug slug=product.slug %}" method="get">
+<!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
+                                    <div class="heart"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                                </form>
                                 </a>
                             </div>
                         </div>
@@ -223,19 +258,20 @@
     </section>
 {% endblock content %}
 
+    <script defer src="{% static 'glasses/scripts/alerts.js' %}"></script>
     <script defer src="{% static 'glasses/scripts/js.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <footer>
         <div class="niz">
             <div class="center_start">
-            <a href="#"><img src="{% static '/glasses/img/Union.svg' %}" alt="logo"></a>
+            <a href="{% url 'index' %}"><img src="{% static '/glasses/img/Union.svg' %}" alt="logo"></a>
             <div class="f_center">
                 <div class="fup">
                     <nav>
-                        <a href="#">О магазине</a>
-                        <a href="#">Доставка и оплата</a>
-                        <a href="#">Гарантия</a>
-                        <a href="#">Отзывы</a>
+                        <a href="{% url 'none' %}">О магазине</a>
+                        <a href="{% url 'none' %}">Доставка и оплата</a>
+                        <a href="{% url 'none' %}">Гарантия</a>
+                        <a href="{% url 'none' %}">Отзывы</a>
                     </nav>
                 </div>
                 <div class="fdown">

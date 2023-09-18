@@ -1,39 +1,33 @@
 {% extends 'glasses/base.html' %}
-
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
 
     <div class="uu fdwn" id="form_cart">
-        {% if messages %}
-    {% for message in messages %}
-        <div class="up">
 
-
-        <div class="clicker" id="clicker">
-            <p>{{ message }}</p>
-        </div>
-                    </div>
-    {% endfor %}
-{% endif %}
         <section class="up">
 
             <div class="basket_lup basket_up">
                 <h1>Корзина</h1>
-                <a href="#">Всего товаров: {{ cart.total_products }}</a>
-                <a href="#">На сумму: {{ cart.final_price }}₽</a>
+                <p href="#">Всего товаров: {{ cart.total_products }}</p>
+                <p href="#">На сумму: {{ cart.final_price }}₽</p>
             </div>
-            <div class="basket_up">
-                <a href="#">Выбрать всё</a>
-                <a href="{% url 'checkout' %}" class="opl">Оплатить</a>
-            </div>
+            <form class="basket_up" action="{% url 'make_products_for_order' %}" method="post" id="order">
+                {% csrf_token %}
+                <a class="cancel_all underline-one">Убрать выбор</a>
+                <a class="select_all underline-one">Выбрать всё</a>
+                    <button class="opl">Оформить заказ</button>
+<!--                <a href="{% url 'checkout' %}" >Оплатить</a>-->
+            </form>
         </section>
+
 
         <ul class="basket_list">
 
             {% for item in cart.products.all %}
-            <label for="{{ item.content_object.pk }}" class="basket_product card1">
-
-                <input type="checkbox" id="{{ item.content_object.pk }}">
+            <label for="{{ item.content_object.slug }}" class="basket_product card1 {{ item.content_object.slug }}" >
+                <input type="checkbox" id="all_{{ item.content_object.slug }}" class="check" form="order" name="___all___{{ item.content_object.slug }}" value="{{ item.content_object.category.slug }}" checked>
+                <input type="checkbox" id="{{ item.content_object.slug }}" class="check" form="order" name="{{ item.content_object.slug }}" value="{{ item.content_object.category.slug }}">
                 <span class="square gre"></span>
                 <a href="{% url 'delete_from_cart' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" class="greq">
                     <img src="{% static '/glasses/img/del.svg' %}" alt="" class="im26">
@@ -55,7 +49,7 @@
                     <div class="qch">
 
                         <div class="number2" data-step="1" data-min="1" data-max="100">
-                            <form action="{% url 'change_qty' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" class="qch" id="qty_f" method="post">
+                            <form action="{% url 'change_qty' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" class="qch" id="form_{{ item.content_object.slug }}" method="post">
                                                         {% csrf_token %}
                                 <input type="number" step="1" min="1" max="100" id="num_count" name="quantity" value="{{ item.qty }}" title="Qty" class="number2-text">
                             </form>
@@ -64,7 +58,7 @@
 
 
                     </div>
-                         <input type="submit" class="sendsubmitc" name="qty" form="qty_f">
+                         <input type="submit" class="sendsubmitc" name="qty" form="form_{{ item.content_object.slug }}">
                     </div>
                     </div>
                 </span>

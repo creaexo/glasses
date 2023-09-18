@@ -1,5 +1,5 @@
 {% extends 'glasses/base.html' %}
-
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -9,6 +9,7 @@
     <div class="person">
 
       <section class="up">
+<!--        <p>{{ products_order }}</p>-->
         <h1>Оформление заказа</h1>
       </section>
       <table class="table">
@@ -22,35 +23,54 @@
           </tr>
         </thead>
         <tbody>
+
           {% for item in cart.products.all %}
+
+          {% if item.in_order %}
           <tr class="mtr">
             <th>{{ item.content_object.title }}</th>
             <td class=""><img src="{{ item.content_object.image1.url }}" class="order_img"></td>
             <td>{{ item.content_object.price }} руб.</td>
-            <td>{{ item.qty }}</td>
-            <td>{{ item.final_price }} руб.</td>
+            <td class="qty_items">{{ item.qty }}</td>
+            <td class="final_price_items">{{ item.final_price }} руб.</td>
           </tr>
+          {% else %}
+          <input type="checkbox" id="___not_in_order___{{ item.content_object.slug }}" class="check full_invisible" form="order" name="___not_in_order___{{ item.content_object.slug }}" value="{{ item.content_object.category.slug }}" checked>
+          {% endif %}
+
           {% endfor %}
           <tr>
             <td></td>
             <td></td>
             <td>Итого:</td>
-            <td>{{ cart.total_products }}</td>
-            <th>{{ cart.final_price }} руб.</th>
+            <td class="total_qty">0</td>
+            <th class="total_price">0</th>
           </tr>
         </tbody>
       </table>
 
 
-      <form action="{% url 'make_order' %}" method="POST" class="person">
+      <form action="{% url 'make_order' %}" method="POST" class="person" id="order">
         {% csrf_token %}
         <section class="personal_data md">
           {% for f in form %}
                 {% csrf_token %}
+            {% if f.label != ''%}
                 <label for="{{ f.id_for_label }}">{{f.label}} {{ f.errors }}
                   {{ f }}
                 </label>
+            {% endif %}
           {% endfor %}
+                  <input type="textarea" name="products_information" value="
+          {% for item in cart.products.all %}
+                    {% if item.in_order %}
+Название товара: {{ item.content_object.title }},&nbsp
+Цена за еденицу: {{ item.content_object.price }},&nbsp
+Количество: {{ item.qty }},&nbsp
+Полная цена: {{ item.final_price }};
+{% endif %}
+{% endfor %}
+" form="order" class="full_invisible_absolute">
                   <input type="submit" class="order_sub" values="Оформить заказ">
         </section>
 
@@ -58,6 +78,6 @@
     </div>
   </div>
 </div>
-
+<script defer src="{% static 'glasses/scripts/checkout.js' %}"></script>
 
 {% endblock content %}

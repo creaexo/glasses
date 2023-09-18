@@ -2,17 +2,20 @@
 
 {% load static %}
 {% block content %}
+<form action="{% url 'add_to_favourites' ct_model=ct_model slug=product.slug %}" method="get" id="add_favorite">
+
+</form>
 <form action="{% url 'add_to_cart' ct_model=ct_model slug=product.slug %}" method="get" id="add_product">
     <div class="uu fdwn">
         <section class="up">
             <div class="lin">
-                <a href="#">{{ product.category }}></a>
-                <a href="#">{{ product.title }}</a>
+                <a href="#">{{ product.category }} </a>
+                <a href="#">- {{ product.title }}</a>
             </div>
 
-            <a href="#">
-                <div class="heart" preserveAspectRatio="none"></div>
-            </a>
+                <div class="heart" preserveAspectRatio="none">
+                    <input type="submit" form="add_favorite" class="invisible">
+                </div>
         </section>
 
         <div class="middle">
@@ -38,52 +41,62 @@
                                         </div>
                                     </div>
                                 </article>
+                                {% if product.image2.url != None %}
                                 <article>
                                     <div class="card2">
                                         <div class="imgbox3">
-                                            {% if product.image2.url != None %}
                                             <img src="{{ product.image2.url }}" alt="">
-                                            {% else %}
-                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
-                                            {% endif %}
                                         </div>
                                     </div>
                                 </article>
+                                {% endif %}
+                                {% if product.image3.url != None %}
                                 <article>
                                     <div class="card2">
                                         <div class="imgbox3">
-                                            {% if product.image3.url != None %}
                                             <img src="{{ product.image3.url }}" alt="">
-                                            {% else %}
-                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
-                                            {% endif %}
                                         </div>
                                     </div>
                                 </article>
+                                {% endif %}
+                                {% if product.image4.url != None %}
                                 <article>
                                     <div class="card2">
                                         <div class="imgbox3">
-                                            {% if product.image4.url != None %}
                                             <img src="{{ product.image4.url }}" alt="">
-                                            {% else %}
-                                            <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
-                                            {% endif %}
                                         </div>
                                     </div>
                                 </article>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="slider-prev-next-control">
+                            {% if product.image2.url != None %}
                             <label for=slide1></label>
+                            {% endif %}
+                            {% if product.image2.url != None %}
                             <label for=slide2></label>
+                            {% endif %}
+                            {% if product.image3.url != None %}
                             <label for=slide3></label>
+                            {% endif %}
+                            {% if product.image4.url != None %}
                             <label for=slide4></label>
+                            {% endif %}
                         </div>
                         <div class="slider-dot-control">
+                            {% if product.image2.url != None %}
                             <label for=slide1></label>
+                            {% endif %}
+                            {% if product.image2.url != None %}
                             <label for=slide2></label>
+                            {% endif %}
+                            {% if product.image3.url != None %}
                             <label for=slide3></label>
+                            {% endif %}
+                            {% if product.image4.url != None %}
                             <label for=slide4></label>
+                            {% endif %}
                         </div>
                     </div>
                 </section>
@@ -110,9 +123,9 @@
 
                     </div>-->
                     <div class="number" data-step="1" data-min="1" data-max="100">
-                        <input type="number" step="1" min="1" max="10" id="num_count" name="quantity" value="1" title="Qty" class="number-text">
-                        <input type="button" value="-" id="button_minus" class="number-minus">
-                        <input type="button" value="+" id="button_plus" class="number-plus">
+                        <input type="number" step="1" min="1" max="10" id="num_count_product" name="quantity" value="1" title="Qty" class="number-text">
+                        <input type="button" value="-" id="button_minus_product" class="number-minus">
+                        <input type="button" value="+" id="button_plus_product" class="number-plus">
                     </div>
                 </div>
 
@@ -122,68 +135,68 @@
 
         {% if product.category.slug == 'glasses' %}
             <!--форма с подбором линз для очков -->
-            <div class="center_start product_down">
-            <h2>Подобрать линзы</h2>
-            <div class="form_linses">
-                <p> </p>
-                <p>Сфера (Sph)</p>
-                <p>Цилиндр (Cyl)</p>
-                <p>Ось (Ax)</p>
+<!--            <div class="center_start product_down">-->
+<!--            <h2>Подобрать линзы</h2>-->
+<!--            <div class="form_linses">-->
+<!--                <p> </p>-->
+<!--                <p>Сфера (Sph)</p>-->
+<!--                <p>Цилиндр (Cyl)</p>-->
+<!--                <p>Ось (Ax)</p>-->
 
-                <p>Правый глаз (OD)</p>
-                <select name="right_sph" id="right_sph">
-                    <option>Не выбрано</option>
-                    <option>0</option>
-                    <option>+ 0.25</option>
-                </select>
-                <select name="right_cyl" id="right_cyl">
-                    <option>Не выбрано</option>
-                    <option>0</option>
-                    <option>+ 0.25</option>
-                </select>
-                <select name="right_ax" id="right_ax">
-                    <option>Не выбрано</option>
-                    <option>0</option>
-                    <option>1</option>
-                </select>
+<!--                <p>Правый глаз (OD)</p>-->
+<!--                <select name="right_sph" id="right_sph">-->
+<!--                    <option>Не выбрано</option>-->
+<!--                    <option>0</option>-->
+<!--                    <option>+ 0.25</option>-->
+<!--                </select>-->
+<!--                <select name="right_cyl" id="right_cyl">-->
+<!--                    <option>Не выбрано</option>-->
+<!--                    <option>0</option>-->
+<!--                    <option>+ 0.25</option>-->
+<!--                </select>-->
+<!--                <select name="right_ax" id="right_ax">-->
+<!--                    <option>Не выбрано</option>-->
+<!--                    <option>0</option>-->
+<!--                    <option>1</option>-->
+<!--                </select>-->
 
-                <p>Левый глаз (OD)</p>
-                <select name="left_sph" id="left_sph">
-                    <option>Не выбрано</option>
-                    <option>0</option>
-                    <option>+ 0.25</option>
-                </select>
-                <select name="left_cyl" id="left_cyl">
-                    <option>Не выбрано</option>
-                    <option>0</option>
-                    <option>+ 0.25</option>
-                </select>
-                <select name="left_ax" id="left_ax">
-                    <option>Не выбрано</option>
-                    <option>0</option>
-                    <option>1</option>
-                </select>
+<!--                <p>Левый глаз (OD)</p>-->
+<!--                <select name="left_sph" id="left_sph">-->
+<!--                    <option>Не выбрано</option>-->
+<!--                    <option>0</option>-->
+<!--                    <option>+ 0.25</option>-->
+<!--                </select>-->
+<!--                <select name="left_cyl" id="left_cyl">-->
+<!--                    <option>Не выбрано</option>-->
+<!--                    <option>0</option>-->
+<!--                    <option>+ 0.25</option>-->
+<!--                </select>-->
+<!--                <select name="left_ax" id="left_ax">-->
+<!--                    <option>Не выбрано</option>-->
+<!--                    <option>0</option>-->
+<!--                    <option>1</option>-->
+<!--                </select>-->
 
-                <p>РМЦ (PD)</p>
-                <select name="pd1" id="pd1">
-                    <option>Не выбрано</option>
-                    <option>20</option>
-                    <option>20.5</option>
-                </select>
-                <select name="pd2" id="pd2">
-                    <option>У меня только 1 pd</option>
-                    <option>20.5</option>
-                </select>
-            </div>
-        </div>
-    <!--форма с подбором линз-->
+<!--                <p>РМЦ (PD)</p>-->
+<!--                <select name="pd1" id="pd1">-->
+<!--                    <option>Не выбрано</option>-->
+<!--                    <option>20</option>-->
+<!--                    <option>20.5</option>-->
+<!--                </select>-->
+<!--                <select name="pd2" id="pd2">-->
+<!--                    <option>У меня только 1 pd</option>-->
+<!--                    <option>20.5</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    &lt;!&ndash;форма с подбором линз&ndash;&gt;-->
         <div class="center_start product_down">
             <h2>Полная характеристика</h2>
             <div class="spbet">
                 <div class="prod">
                     <p><b>Размер:</b> {{ product.glasses_size }}</p>
                     <p><b>Пол:</b> {{ product.glasses_gender }}</p>
-                    <p><b>Производитель:</b>{{ product.manufacturer }}</p>
+                    <p><b>Производитель:</b> {{ product.manufacturer }}</p>
                     <p><b>Материал оправы:</b> {{ product.frame_material }}</p>
                     <p><b>Тип оправы:</b> {{ product.frame_type }} </p>
                     <p><b>Форма:</b> {{ product.glasses_form }}</p>
@@ -196,23 +209,28 @@
 
                     </div>
                     <div class="gs">
-                        <p><b>Высота линзы:</b>{{ product.Lenses_width }} мм</p>
+                        <p><b>Ширина линзы:</b>{{ product.Lenses_width }} мм</p>
                         <img src="{% static '/glasses/img/gs2.jpg' %}" alt="">
 
                     </div>
                     <div class="gs">
-                        <p><b>Высота линзы:</b>{{ product.Lenses_length }} мм</p>
+                        <p><b>Длина линзы:</b>{{ product.Lenses_length }} мм</p>
                         <img src="{% static '/glasses/img/gs3.jpg' %}" alt="">
 
                     </div>
                     <div class="gs">
-                        <p><b>Высота линзы:</b>{{ product.Lenses_bridge }} мм</p>
+                        <p><b>Мост:</b>{{ product.Lenses_bridge }} мм</p>
                         <img src="{% static '/glasses/img/gs4.jpg' %}" alt="">
 
                     </div>
                 </div>
             </div>
-
+            <h2>Описание</h2>
+            <div class="spbet">
+                <div class="prod eue">
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
         </div>
     {% endif %}
 
@@ -327,3 +345,5 @@
     </div>
 </form>
 {% endblock content %}
+
+
