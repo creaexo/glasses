@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' fonts.googleapis.com fonts.gstatic.com ajax.googleapis.com">
     <link rel="stylesheet" href="{% static 'glasses/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'glasses/css/alerts.css' %}">
         <link rel="stylesheet" href="{% static 'glasses/css/slider.css' %}">
@@ -65,7 +66,9 @@
 
                             <img src="{% static '/glasses/img/korz.svg' %}" alt="" class="korz">
                             <img src="{% static '/glasses/img/greenkorz.svg' %}" alt="" class="greenkorz">
-                            <p class="cart">Корзина<div class="cart_quantity">{{ cart.products.count }}</div></p>
+
+<!--                            <p class="cart">Корзина<div class="cart_quantity">{{ cart.products.count }}</div></p>-->
+                            <p class="cart">Корзина{% if request.user.is_authenticated %}<div class="cart_quantity">{{ cart.products.count }}</div>{% endif %}</p>
                         </a>
                     </div>
                 </div>
@@ -117,7 +120,7 @@
         <div class="center1">
             <div class="tc">
                 <h2 class="acol">Акции</h2>
-                <a href="#">Смотреть все></a>
+                <a href="{% url 'none' %}">Смотреть все></a>
             </div>
         </div>
         <div class="center1">

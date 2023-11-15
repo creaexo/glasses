@@ -9,14 +9,11 @@
             <section class="personal_data md">
                     {% for f in form %}
                 {% csrf_token %}
-                <label for="{{ f.id_for_label }}" class="{{ f.id_for_label }}">{{f.label}} {{ f.errors }}
-                    {{ f }}
-                                    </label>
+                <label for="{{ f.id_for_label }}" class="{{ f.id_for_label }}">{{f.label}} {{ f.errors }} {{ f }}</label>
                     {% endfor %}
-
                     <div class="signin">
                         <input type="submit" value="Зарегистрироваться" class="regg">
-                        <a href="#" class="have">У меня уже есть аккаунт</a>
+                        <a href="{% url 'login' %}" class="have">У меня уже есть аккаунт</a>
                     </div>
 
             </section>

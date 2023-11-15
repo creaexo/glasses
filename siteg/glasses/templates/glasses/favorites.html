@@ -32,7 +32,7 @@
                         {% endif %}
                     </div>
 
-                    <h3>{{ item.content_object.title }}</h3>
+                    <a href="{{ item.content_object.get_absolute_url }}" class="title_a">{{ item.content_object.title }}</a>
 
 
                     <div class="down_card3">
@@ -40,7 +40,7 @@
                         <a href="" class="wh64">
                             <form action="{% url 'add_to_cart' ct_model=item.content_object.category.slug slug=item.content_object.slug %}" method="get">
 <!--                                    <input type="number" id="num_count" name="quantity" value="1" class="dn">-->
-                                <div class="basketl"><input type="submit" name="quantity" value="1" class="invisible_cart"></div>
+                                <div class="basketl"><input type="submit" name="quantity" value="1" class="invisible_cart like_basket"></div>
                             </form>
                         </a>
                     </div>

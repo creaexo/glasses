@@ -9,8 +9,8 @@
 
             <div class="basket_lup basket_up">
                 <h1>Корзина</h1>
-                <p href="#">Всего товаров: {{ cart.total_products }}</p>
-                <p href="#">На сумму: {{ cart.final_price }}₽</p>
+                <p>Всего товаров: {{ cart.total_products }}</p>
+                <p>На сумму: {{ cart.final_price }}₽</p>
             </div>
             <form class="basket_up" action="{% url 'make_products_for_order' %}" method="post" id="order">
                 {% csrf_token %}
@@ -40,8 +40,8 @@
                         <img src="{% static '/glasses/img/g1.jpg' %}" alt="">
                         {% endif %}
                     </div>
+                    <a href="{{ item.content_object.get_absolute_url }}" class="title_a">{{ item.content_object.title }}</a>
 
-                    <h3>{{ item.content_object.title }}</h3>
 
 
                     <div class="down_card3">

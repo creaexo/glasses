@@ -365,7 +365,7 @@ header nav a{
 
 }
 
-.card h3, .card .h3{
+.card h3, .card .h3, a.title_a{
     font-size: 2.2rem;
     font-weight: 500;
     margin-top: 1.2rem;
@@ -747,7 +747,7 @@ margin-right: 5rem;
     background-color: #585856;
     border-radius: 50%;
     opacity: 0;
-    transform: 0.3s;
+    transition: 0.3s;
 }
 
 .ra:checked + .visual_radio::before{
@@ -976,7 +976,7 @@ text-align: center;
 .prod p{
     margin-bottom: 1rem;
 }
-label[#id_products_information]{
+label#id_products_information{
         opacity: 0;
     width: 0;
     height: 0;
@@ -1261,7 +1261,7 @@ label[#id_products_information]{
     height: 1rem;
     background-color: #585856;
     opacity: 0;
-    transform: 0.3s;
+    transition: 0.3s;
 }
 
 .checkbox_text input[type='checkbox']:checked + .square::before{
@@ -1630,7 +1630,7 @@ margin-right: 5rem;
     background-color: #585856;
     border-radius: 50%;
     opacity: 0;
-    transform: 0.3s;
+    transition: 0.3s;
 }
 
 .lench .ra:checked + .visual_radio::before{
@@ -1918,4 +1918,8 @@ margin-bottom: 5rem;
 
 .mb480{
     margin-bottom: 48rem;
+}
+.like_basket{
+    height: 100%;
+    width: 100%;
 }
